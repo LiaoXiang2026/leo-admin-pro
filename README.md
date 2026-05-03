@@ -80,6 +80,30 @@ pnpm dev
 pnpm build
 ```
 
+## Sync with Upstream (For Forked Repositories)
+
+If you forked this repository, you can sync updates from the upstream repository:
+
+```bash
+# Add upstream remote (one-time setup)
+git remote add upstream https://github.com/vbenjs/vue-vben-admin.git
+
+# Fetch upstream updates
+git fetch upstream
+
+# View upstream changes
+git log HEAD..upstream/main --oneline
+
+# Merge upstream changes into current branch
+git merge upstream/main
+
+# Or rebase onto upstream
+git rebase upstream/main
+
+# Push synced changes to your fork
+git push origin main
+```
+
 ## Change Log
 
 [CHANGELOG](https://github.com/vbenjs/vue-vben-admin/releases)
