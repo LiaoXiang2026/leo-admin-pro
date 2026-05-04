@@ -13,7 +13,7 @@ export class UserService {
     });
     if (!user) return null;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     const { password: _password, ...result } = user;
     return {
       ...result,
