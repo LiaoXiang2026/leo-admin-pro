@@ -13,7 +13,6 @@ export class UserService {
     });
     if (!user) return null;
 
-     
     const { password: _password, ...result } = user;
     return {
       ...result,

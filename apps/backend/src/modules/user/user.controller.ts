@@ -13,7 +13,7 @@ export class UserController {
 
   @ApiOperation({ summary: '获取当前用户信息' })
   @Get('info')
-  async getUserInfo(@Req() req: Request & { user: { sub: string } }) {
-    return this.userService.findById(req.user.sub);
+  async getUserInfo(@Req() req: Request & { user: { userId: string } }) {
+    return this.userService.findById(req.user.userId);
   }
 }

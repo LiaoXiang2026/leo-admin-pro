@@ -24,8 +24,8 @@ export class AuthController {
   @ApiOperation({ summary: '获取用户权限码' })
   @Get('codes')
   @UseGuards(JwtAuthGuard)
-  async getCodes(@Req() req: Request & { user: { sub: string } }) {
-    return this.authService.getAccessCodes(req.user.sub);
+  async getCodes(@Req() req: Request & { user: { userId: string } }) {
+    return this.authService.getAccessCodes(req.user.userId);
   }
 
   @ApiOperation({ summary: '登录' })

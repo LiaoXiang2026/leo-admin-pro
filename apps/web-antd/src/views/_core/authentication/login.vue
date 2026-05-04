@@ -15,16 +15,12 @@ const authStore = useAuthStore();
 
 const MOCK_USER_OPTIONS: BasicOption[] = [
   {
-    label: 'Super',
-    value: 'vben',
-  },
-  {
     label: 'Admin',
     value: 'admin',
   },
   {
     label: 'User',
-    value: 'jack',
+    value: 'user',
   },
 ];
 
@@ -42,7 +38,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         .string()
         .min(1, { message: $t('authentication.selectAccount') })
         .optional()
-        .default('vben'),
+        .default('admin'),
     },
     {
       component: 'VbenInput',
@@ -93,6 +89,11 @@ const formSchema = computed((): VbenFormSchema[] => {
   <AuthenticationLogin
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
+    :show-code-login="false"
+    :show-qrcode-login="false"
+    :show-third-party-login="false"
+    :show-register="false"
+    :show-forget-password="false"
     @submit="authStore.authLogin"
   />
 </template>

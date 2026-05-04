@@ -1,9 +1,9 @@
-import process from 'process';
+import process from 'node:process';
 
+import { neonConfig } from '@neondatabase/serverless';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import { PrismaClient } from '@prisma/client';
-import { neonConfig } from '@neondatabase/serverless';
 import ws from 'ws';
 
 neonConfig.webSocketConstructor = ws;
