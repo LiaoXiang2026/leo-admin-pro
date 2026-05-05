@@ -61,6 +61,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         },
         triggerFields: ['selectAccount'],
       },
+      defaultValue: 'admin',
       fieldName: 'username',
       label: $t('authentication.username'),
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
