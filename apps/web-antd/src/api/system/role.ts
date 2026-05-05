@@ -1,5 +1,6 @@
-import { generatedApi } from '../generated';
 import type { CreateRoleDto, UpdateRoleDto } from '../generated/data-contracts';
+
+import { generatedApi } from '../generated';
 
 export namespace SystemRoleApi {
   export interface SystemRole {
