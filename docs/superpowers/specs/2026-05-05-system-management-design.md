@@ -65,8 +65,20 @@ Each API file returns mock data via Promise.resolve, typed to match the expected
 
 ```ts
 const mockRoles = [
-  { id: 1, name: '管理员', status: 1, remark: '超级管理员', createTime: '2024-01-01 00:00:00' },
-  { id: 2, name: '普通用户', status: 1, remark: '普通用户', createTime: '2024-01-02 00:00:00' },
+  {
+    id: 1,
+    name: '管理员',
+    status: 1,
+    remark: '超级管理员',
+    createTime: '2024-01-01 00:00:00',
+  },
+  {
+    id: 2,
+    name: '普通用户',
+    status: 1,
+    remark: '普通用户',
+    createTime: '2024-01-02 00:00:00',
+  },
 ];
 
 export async function getRoleList(params?: any) {
@@ -77,16 +89,19 @@ export async function getRoleList(params?: any) {
 ## Page Details
 
 ### Role Management
+
 - Table: paginated list with columns (name, id, status switch, remark, createTime, operations)
 - Form: drawer with fields (name, status radio, remark textarea, permissions tree)
 - Operations: edit, delete, status toggle with confirmation
 
 ### Menu Management
+
 - Table: tree structure with columns (title with icon, type tag, authCode, path, component, status, operations)
 - Form: drawer with conditional fields based on menu type (catalog/menu/button/embedded/link)
 - Operations: append child, edit, delete
 
 ### User Management
+
 - Table: paginated list with columns (username, nickname, phone, status, createTime, operations)
 - Form: drawer with fields (username, nickname, phone, role select, status, remark)
 - Operations: edit, delete

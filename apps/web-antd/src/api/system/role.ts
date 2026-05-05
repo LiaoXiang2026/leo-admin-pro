@@ -22,14 +22,17 @@ export namespace SystemRoleApi {
 
 export async function getRoleList(params?: SystemRoleApi.RoleListParams) {
   const response = await generatedApi.roleControllerList({ query: params });
-  return response.data as { items: SystemRoleApi.SystemRole[]; total: number };
+  return response.data as unknown as {
+    items: SystemRoleApi.SystemRole[];
+    total: number;
+  };
 }
 
 export async function createRole(data: Partial<SystemRoleApi.SystemRole>) {
   const response = await generatedApi.roleControllerCreate(
     data as CreateRoleDto,
   );
-  return response.data as SystemRoleApi.SystemRole;
+  return response.data as unknown as SystemRoleApi.SystemRole;
 }
 
 export async function updateRole(
@@ -40,7 +43,7 @@ export async function updateRole(
     { id: String(id) },
     data as UpdateRoleDto,
   );
-  return response.data as SystemRoleApi.SystemRole;
+  return response.data as unknown as SystemRoleApi.SystemRole;
 }
 
 export async function deleteRole(id: number) {
