@@ -20,7 +20,8 @@
     "build:analyze": "pnpm vite build --mode analyze",
     "dev": "pnpm vite --mode development",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit --skipLibCheck"
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "generate:api": "swagger-typescript-api generate -p https://leo-admin-backend.zeabur.app/api/docs-json -o ./src/api/generated --http-client axios --modular --extract-request-params --extract-request-body --extract-response-body --extract-enums"
   },
   "imports": {
     "#/*": "./src/*"
@@ -46,5 +47,8 @@
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "swagger-typescript-api": "catalog:"
   }
 }

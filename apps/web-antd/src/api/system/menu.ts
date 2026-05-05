@@ -1,3 +1,7 @@
+// NOTE: Backend only exposes GET /api/menu/all. CRUD endpoints (create/update/delete) are not yet available.
+// When the backend adds menu CRUD endpoints, regenerate with `pnpm -F @vben/web-antd run generate:api`
+// and replace the mock implementations below with real API calls (see system/role.ts for pattern).
+
 export namespace SystemMenuApi {
   export type BadgeVariants =
     | 'deemphasize'
@@ -16,20 +20,20 @@ export namespace SystemMenuApi {
     linkSrc?: string;
     status: number;
     meta: {
-      title: string;
-      icon?: string;
       activeIcon?: string;
-      badgeType?: 'dot' | 'normal';
-      badge?: string;
-      badgeVariants?: BadgeVariants;
-      keepAlive?: boolean;
       affixTab?: boolean;
-      hideInMenu?: boolean;
+      badge?: string;
+      badgeType?: 'dot' | 'normal';
+      badgeVariants?: BadgeVariants;
       hideChildrenInMenu?: boolean;
       hideInBreadcrumb?: boolean;
+      hideInMenu?: boolean;
       hideInTab?: boolean;
-      link?: string;
+      icon?: string;
       iframeSrc?: string;
+      keepAlive?: boolean;
+      link?: string;
+      title: string;
     };
     children?: SystemMenu[];
     createTime: string;
@@ -123,7 +127,7 @@ const mockMenus: SystemMenuApi.SystemMenu[] = [
 ];
 
 export async function getMenuList() {
-  return Promise.resolve(mockMenus);
+  return mockMenus;
 }
 
 export async function createMenu(
@@ -134,30 +138,30 @@ export async function createMenu(
     id: Date.now(),
     createTime: new Date().toISOString().replace('T', ' ').slice(0, 19),
   };
-  return Promise.resolve(newMenu);
+  return newMenu;
 }
 
 export async function updateMenu(
   _id: number,
   data: Partial<Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>>,
 ) {
-  return Promise.resolve({ id: _id, ...data });
+  return { id: _id, ...data };
 }
 
 export async function deleteMenu(_id: number) {
-  return Promise.resolve(true);
+  return true;
 }
 
 export async function isMenuNameExists(
   _name: string,
   _excludeId?: number,
 ): Promise<boolean> {
-  return Promise.resolve(false);
+  return false;
 }
 
 export async function isMenuPathExists(
   _path: string,
   _excludeId?: number,
 ): Promise<boolean> {
-  return Promise.resolve(false);
+  return false;
 }

@@ -1,3 +1,7 @@
+// NOTE: Backend does not yet expose user CRUD endpoints. These are in-memory mocks.
+// When the backend adds /api/user endpoints, regenerate with `pnpm -F @vben/web-antd run generate:api`
+// and replace the mock implementations below with real API calls (see system/role.ts for pattern).
+
 export namespace SystemUserApi {
   export interface SystemUser {
     id: number;
@@ -63,10 +67,14 @@ const mockUsers: SystemUserApi.SystemUser[] = [
 export async function getUserList(params?: SystemUserApi.UserListParams) {
   let items = [...mockUsers];
   if (params?.username) {
-    items = items.filter((item) => item.username.includes(params.username ?? ''));
+    items = items.filter((item) =>
+      item.username.includes(params.username ?? ''),
+    );
   }
   if (params?.nickname) {
-    items = items.filter((item) => item.nickname.includes(params.nickname ?? ''));
+    items = items.filter((item) =>
+      item.nickname.includes(params.nickname ?? ''),
+    );
   }
   if (params?.status !== undefined && params?.status !== null) {
     items = items.filter((item) => item.status === params.status);
@@ -75,7 +83,7 @@ export async function getUserList(params?: SystemUserApi.UserListParams) {
   const pageSize = params?.pageSize || 10;
   const start = (page - 1) * pageSize;
   const paged = items.slice(start, start + pageSize);
-  return Promise.resolve({ items: paged, total: items.length });
+  return { items: paged, total: items.length };
 }
 
 export async function createUser(data: Partial<SystemUserApi.SystemUser>) {
@@ -92,7 +100,7 @@ export async function createUser(data: Partial<SystemUserApi.SystemUser>) {
     createTime: new Date().toISOString().replace('T', ' ').slice(0, 19),
   };
   mockUsers.push(newUser);
-  return Promise.resolve(newUser);
+  return newUser;
 }
 
 export async function updateUser(
@@ -103,16 +111,16 @@ export async function updateUser(
   if (index !== -1) {
     const user = mockUsers[index];
     if (user) Object.assign(user, data);
-    return Promise.resolve(user);
+    return user;
   }
-  return Promise.reject(new Error('User not found'));
+  throw new Error('User not found');
 }
 
 export async function deleteUser(id: number) {
   const index = mockUsers.findIndex((item) => item.id === id);
   if (index !== -1) {
     mockUsers.splice(index, 1);
-    return Promise.resolve(true);
+    return true;
   }
-  return Promise.reject(new Error('User not found'));
+  throw new Error('User not found');
 }
