@@ -1,10 +1,6 @@
 {
   "folders": [
     {
-      "name": "@vben/backend",
-      "path": "apps/backend"
-    },
-    {
       "name": "@vben/web-antd",
       "path": "apps/web-antd"
     },

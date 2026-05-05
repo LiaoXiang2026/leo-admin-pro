@@ -10,7 +10,7 @@ export default defineConfig(async () => {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
             // 真实后端地址
-            target: 'http://localhost:3000/api',
+            target: 'http://localhost:3200/api',
             ws: true,
           },
         },
