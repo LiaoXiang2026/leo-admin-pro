@@ -1,157 +1,119 @@
 <div align="center">
-  <a href="https://github.com/anncwb/vue-vben-admin">
-    <img alt="VbenAdmin Logo" width="215" src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp">
-  </a>
-  <br>
-  <br>
-
-[![license](https://img.shields.io/github/license/anncwb/vue-vben-admin.svg)](LICENSE)
-
-  <h1>Vue Vben Admin</h1>
+  <h1>Leo Admin Pro</h1>
+  <p>基于 Vue Vben Admin 5.0 二次开发的企业级中后台管理系统</p>
 </div>
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vbenjs_vue-vben-admin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vbenjs_vue-vben-admin) ![codeql](https://github.com/vbenjs/vue-vben-admin/actions/workflows/codeql.yml/badge.svg) ![build](https://github.com/vbenjs/vue-vben-admin/actions/workflows/build.yml/badge.svg) ![ci](https://github.com/vbenjs/vue-vben-admin/actions/workflows/ci.yml/badge.svg) ![deploy](https://github.com/vbenjs/vue-vben-admin/actions/workflows/deploy.yml/badge.svg)
-
-**中文** | [English](./README.md) | [日本語](./README.ja-JP.md)
 
 ## 简介
 
-Vue Vben Admin 是 Vue Vben Admin 的升级版本。作为一个免费开源的中后台模板，它采用了最新的 Vue 3、Vite、TypeScript 等主流技术开发，开箱即用，可用于中后台前端开发，也适合学习参考。
+Leo Admin Pro 是基于 Vue Vben Admin 5.0 进行二次开发的企业级中后台解决方案。采用 Vue 3、Vite、TypeScript、Monorepo 等主流技术，开箱即用，适合快速搭建企业级管理系统。
 
-## 升级提示
+## 技术栈
 
-该版本为最新版本 `5.0`，与其他版本不兼容，如果你是新项目，建议使用最新版本。如果你想查看旧版本，请使用 [v2 分支](https://github.com/vbenjs/vue-vben-admin/tree/v2)
+- **核心框架**：Vue 3 + TypeScript + Vite
+- **状态管理**：Pinia
+- **路由**：Vue Router（动态路由 + 权限控制）
+- **UI 组件库**：Ant Design Vue
+- **样式方案**：Tailwind CSS v4
+- **构建工具**：pnpm Monorepo + Turbo
+- **HTTP 请求**：Axios
+- **图表**：ECharts
+- **代码规范**：ESLint + Oxlint + Stylelint
 
 ## 特性
 
-- **最新技术栈**：使用 Vue3/vite 等前端前沿技术开发
-- **TypeScript**：应用程序级 JavaScript 的语言
-- **主题**：提供多套主题色彩，可配置自定义主题
-- **国际化**：内置完善的国际化方案
-- **权限**：内置完善的动态路由权限生成方案
+- **Monorepo 架构**：pnpm workspace + Turbo，30+ 个 package 高效复用
+- **类型安全**：全量 TypeScript，Swagger API 自动生成类型定义
+- **权限系统**：基于动态路由的 RBAC 权限控制（菜单级/按钮级）
+- **多主题支持**：内置多套主题色，支持自定义主题
+- **国际化**：Vue I18n 多语言方案
+- **工程化体系**：ESLint + Oxlint + Stylelint + cspell + Changeset + Lefthook
+- **测试体系**：Vitest 单元测试 + Playwright E2E 测试
 
-## 预览
+## 已集成模块
 
-- [Vben Admin](https://vben.pro/) - 完整版中文站点
+| 模块 | 功能 |
+|------|------|
+| 数据看板 | 访问趋势、访问量统计、销售数据、来源分布、工作空间 |
+| 用户管理 | 列表/搜索/新增/编辑/删除（Mock） |
+| 角色管理 | 列表/搜索/新增/编辑/删除（真实 API） |
+| 菜单管理 | 树形展示/基础 CRUD（部分 Mock） |
 
-测试账号：vben/123456
+## 快速开始
 
-<div align="center">
-  <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview1.png">
-  <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview2.png">
-  <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview3.png">
-</div>
+### 环境要求
 
-### 使用 Gitpod
+- Node.js >= 20.19.0
+- pnpm >= 10.0.0
 
-在 Gitpod（适用于 GitHub 的免费在线开发环境）中打开项目，并立即开始编码。
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vbenjs/vue-vben-admin)
-
-## 文档
-
-[文档地址](https://doc.vben.pro/)
-
-## 安装使用
-
-1. 获取项目代码
+### 安装
 
 ```bash
-git clone https://github.com/vbenjs/vue-vben-admin.git
-```
-
-2. 安装依赖
-
-```bash
-cd vue-vben-admin
 npm i -g corepack
 pnpm install
 ```
 
-3. 运行
+### 开发
 
 ```bash
-pnpm dev
+pnpm dev:antd      # 启动 Ant Design Vue 版本
+pnpm dev:ele       # 启动 Element Plus 版本
+pnpm dev:naive     # 启动 Naive UI 版本
+pnpm dev:tdesign   # 启动 TDesign 版本
 ```
 
-4. 打包
+### 构建
 
 ```bash
-pnpm build
+pnpm build:antd    # 构建 Ant Design Vue 版本
+pnpm build         # 构建全部
 ```
 
-## 更新日志
+### API 类型生成
 
-[CHANGELOG](https://github.com/vbenjs/vue-vben-admin/releases)
+```bash
+pnpm -F @vben/web-antd run generate:api
+```
 
-## 如何贡献
+## 项目结构
 
-非常欢迎你的加入！[提一个 Issue](https://github.com/anncwb/vue-vben-admin/issues/new/choose) 或者提交一个 Pull Request。
+```
+├── apps/
+│   ├── web-antd/           # Ant Design Vue 版本（主力开发）
+│   ├── web-ele/            # Element Plus 版本
+│   ├── web-naive/          # Naive UI 版本
+│   ├── web-tdesign/        # TDesign 版本
+│   └── backend-mock/       # Nitro Mock 服务
+├── packages/
+│   ├── @core/              # 核心基础包
+│   ├── effects/            # 业务效果包
+│   ├── stores/             # Pinia 状态管理
+│   ├── locales/            # 国际化
+│   ├── icons/              # 图标系统
+│   └── ...
+├── internal/               # 内部工具链
+└── docs/                   # 文档
+```
 
-**Pull Request 流程：**
+## 开发规范
 
-1. Fork 代码
-2. 创建自己的分支：`git checkout -b feature/xxxx`
-3. 提交你的修改：`git commit -am 'feat(function): add xxxxx'`
-4. 推送您的分支：`git push origin feature/xxxx`
-5. 提交 `pull request`
-
-## Git 贡献提交规范
-
-参考 [vue](https://github.com/vuejs/vue/blob/dev/.github/COMMIT_CONVENTION.md) 规范 ([Angular](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular))
-
-- `feat` 增加新功能
-- `fix` 修复问题/BUG
-- `style` 代码风格相关无影响运行结果的
-- `perf` 优化/性能提升
-- `refactor` 重构
-- `revert` 撤销修改
-- `test` 测试相关
-- `docs` 文档/注释
-- `chore` 依赖更新/脚手架配置修改等
-- `ci` 持续集成
-- `types` 类型定义文件更改
+- 使用 `<script setup>` 语法
+- 组件命名 PascalCase，文件命名 kebab-case
+- API 接口使用 namespace 组织类型
+- 提交信息遵循 Conventional Commits：`feat:` / `fix:` / `refactor:` / `docs:` / `chore:`
 
 ## 浏览器支持
 
-本地开发推荐使用 `Chrome 80+` 浏览器
+| Chrome | Firefox | Safari | Edge |
+|:------:|:-------:|:------:|:----:|
+| last 2 | last 2  | last 2 | last 2 |
 
-支持现代浏览器，不支持 IE
+不支持 IE
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| :-: | :-: | :-: | :-: |
-| last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+## 文档
 
-## 维护者
-
-[@Vben](https://github.com/anncwb)
-
-## Star 历史
-
-[![Star History Chart](https://api.star-history.com/svg?repos=vbenjs/vue-vben-admin&type=Date)](https://star-history.com/#vbenjs/vue-vben-admin&Date)
-
-## 捐赠
-
-如果你觉得这个项目对你有帮助，你可以帮作者买一杯咖啡表示支持！
-
-![donate](https://unpkg.com/@vbenjs/static-source@0.1.7/source/sponsor.png)
-
-<a style="display: block;width: 100px;height: 50px;line-height: 50px; color: #fff;text-align: center; background: #408aed;border-radius: 4px;" href="https://www.paypal.com/paypalme/cvvben">Paypal Me</a>
-
-## 贡献者
-
-<a href="https://openomy.app/github/vbenjs/vue-vben-admin" target="_blank" style="display: block; width: 100%;" align="center">
-  <img src="https://openomy.app/svg?repo=vbenjs/vue-vben-admin&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
- </a>
-
-<a href="https://github.com/vbenjs/vue-vben-admin/graphs/contributors">
-  <img alt="Contributors" src="https://contrib.rocks/image?repo=vbenjs/vue-vben-admin" />
-</a>
-
-## Discord
-
-- [Github Discussions](https://github.com/anncwb/vue-vben-admin/discussions)
+- [Vben Admin 官方文档](https://doc.vben.pro/)
+- [apps/web-antd/README.md](./apps/web-antd/README.md) - 本项目的详细开发文档
 
 ## 许可证
 
-[MIT © Vben-2020](./LICENSE)
+[MIT](./LICENSE)
