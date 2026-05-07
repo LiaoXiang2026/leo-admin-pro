@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
-import { createRole, updateRole } from '#/api/system/role';
+import { generatedApi } from '#/api/generated';
 import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
@@ -27,7 +27,11 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    (id.value ? updateRole(id.value, values) : createRole(values))
+    const payload = { name: values.name, description: values.remark };
+    (id.value
+      ? generatedApi.roleControllerUpdate({ id: String(id.value) }, payload)
+      : generatedApi.roleControllerCreate(payload)
+    )
       .then(() => {
         emits('success');
         drawerApi.close();

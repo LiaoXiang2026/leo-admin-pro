@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { Recordable } from '@vben/types';
-
 import type {
   OnActionClickParams,
   VxeTableGridOptions,
@@ -10,14 +8,16 @@ import type { SystemRoleApi } from '#/api';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message, Modal } from 'ant-design-vue';
+import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteRole, getRoleList, updateRole } from '#/api/system/role';
+import { generatedApi } from '#/api/generated';
+import { getRoleList } from '#/api/system/role';
 import { $t } from '#/locales';
 
 import { useColumns, useGridFormSchema } from './data';
 import Form from './modules/form.vue';
+
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
   destroyOnClose: true,
@@ -29,7 +29,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     submitOnChange: true,
   },
   gridOptions: {
-    columns: useColumns(onActionClick, onStatusChange),
+    columns: useColumns(onActionClick),
     height: 'auto',
     keepSource: true,
     proxyConfig: {
@@ -69,38 +69,6 @@ function onActionClick(e: OnActionClickParams<SystemRoleApi.SystemRole>) {
   }
 }
 
-function confirm(content: string, title: string) {
-  return new Promise((resolve, reject) => {
-    Modal.confirm({
-      content,
-      onCancel() {
-        reject(new Error('已取消'));
-      },
-      onOk() {
-        resolve(true);
-      },
-      title,
-    });
-  });
-}
-
-async function onStatusChange(
-  newStatus: number,
-  row: SystemRoleApi.SystemRole,
-) {
-  const status: Recordable<string> = { 0: '禁用', 1: '启用' };
-  try {
-    await confirm(
-      `你要将${row.name}的状态切换为 【${status[newStatus.toString()]}】 吗？`,
-      `切换状态`,
-    );
-    await updateRole(row.id, { status: newStatus });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 function onEdit(row: SystemRoleApi.SystemRole) {
   formDrawerApi.setData(row).open();
 }
@@ -111,7 +79,8 @@ function onDelete(row: SystemRoleApi.SystemRole) {
     duration: 0,
     key: 'action_process_msg',
   });
-  deleteRole(row.id)
+  generatedApi
+    .roleControllerDelete({ id: String(row.id) })
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),

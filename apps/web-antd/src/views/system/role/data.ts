@@ -41,24 +41,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'name',
       label: $t('system.role.roleName'),
     },
-    {
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
-        ],
-      },
-      fieldName: 'status',
-      label: $t('system.role.status'),
-    },
   ];
 }
 
 export function useColumns<T = SystemRoleApi.SystemRole>(
   onActionClick: OnActionClickFn<T>,
-  onStatusChange?: (newStatus: any, row: T) => PromiseLike<boolean | undefined>,
 ): VxeTableGridColumns {
   return [
     {
@@ -67,26 +54,12 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       width: 200,
     },
     {
-      field: 'id',
-      title: $t('system.role.id'),
-      width: 100,
-    },
-    {
-      cellRender: {
-        attrs: { beforeChange: onStatusChange },
-        name: onStatusChange ? 'CellSwitch' : 'CellTag',
-      },
-      field: 'status',
-      title: $t('system.role.status'),
-      width: 100,
-    },
-    {
-      field: 'remark',
+      field: 'description',
       minWidth: 100,
       title: $t('system.role.remark'),
     },
     {
-      field: 'createTime',
+      field: 'createdAt',
       title: $t('system.role.createTime'),
       width: 200,
     },

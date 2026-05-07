@@ -53,6 +53,7 @@ const formSchema = computed((): VbenFormSchema[] => {
             );
             if (findUser) {
               form.setValues({
+                captcha: true,
                 password: '123456',
                 username: findUser.value,
               });
