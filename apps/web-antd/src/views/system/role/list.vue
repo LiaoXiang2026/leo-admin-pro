@@ -15,7 +15,7 @@ import { generatedApi } from '#/api/generated';
 import { getRoleList } from '#/api/system/role';
 import { $t } from '#/locales';
 
-import { useColumns, useGridFormSchema } from './data';
+import { useColumns, useGridFormSchema } from './schema';
 import Form from './modules/form.vue';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
