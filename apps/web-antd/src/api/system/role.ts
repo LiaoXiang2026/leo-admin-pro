@@ -7,7 +7,7 @@ export namespace SystemRoleApi {
     description: string;
     createdAt: string;
     updatedAt: string;
-    permissions?: { id: string; code: string; name: string }[];
+    permissions?: { code: string; id: string; name: string }[];
   }
 
   export interface RoleListParams {
