@@ -18,10 +18,10 @@ export namespace SystemRoleApi {
 }
 
 export async function getRoleList(params?: SystemRoleApi.RoleListParams) {
-  const response = await generatedApi.roleControllerList({ query: params });
-  const list = (response.data as any)?.data ?? [];
+  const response = await generatedApi.roleControllerList(params || {});
+  const result = (response.data as any)?.data ?? { items: [], total: 0 };
   return {
-    items: list as SystemRoleApi.SystemRole[],
-    total: list.length,
+    items: result.items as SystemRoleApi.SystemRole[],
+    total: result.total as number,
   };
 }

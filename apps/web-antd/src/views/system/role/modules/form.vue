@@ -20,7 +20,7 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
-const id = ref<number>();
+const id = ref<string>();
 const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     const { valid } = await formApi.validate();
