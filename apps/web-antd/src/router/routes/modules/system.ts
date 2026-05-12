@@ -30,6 +30,15 @@ const routes: RouteRecordRaw[] = [
         },
         component: () => import('#/views/system/role/list.vue'),
       },
+      {
+        path: '/system/dict',
+        name: 'SystemDict',
+        meta: {
+          icon: 'lucide:book-type',
+          title: $t('system.dict.title'),
+        },
+        component: () => import('#/views/system/dict/index.vue'),
+      },
     ],
   },
 ];
