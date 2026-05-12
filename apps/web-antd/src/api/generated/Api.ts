@@ -1,5 +1,6 @@
 /* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -9,14 +10,32 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   AppControllerGetHelloData,
   AppControllerHealthData,
   AuthControllerGetCodesData,
   AuthControllerLoginData,
   AuthControllerLogoutData,
   AuthControllerRefreshData,
+  BatchDeleteDictDataDto,
+  CreateDictDataDto,
+  CreateDictTypeDto,
   CreateRoleDto,
+  DictControllerBatchDeleteDataData,
+  DictControllerCreateDataData,
+  DictControllerCreateTypeData,
+  DictControllerDeleteDataData,
+  DictControllerDeleteDataParams,
+  DictControllerDeleteTypeData,
+  DictControllerDeleteTypeParams,
+  DictControllerListDataData,
+  DictControllerListDataParams,
+  DictControllerListTypeData,
+  DictControllerListTypeParams,
+  DictControllerUpdateDataData,
+  DictControllerUpdateDataParams,
+  DictControllerUpdateTypeData,
+  DictControllerUpdateTypeParams,
   LoginDto,
   MenuControllerGetAllMenusData,
   RoleControllerCreateData,
@@ -25,13 +44,15 @@ import type {
   RoleControllerDetailData,
   RoleControllerDetailParams,
   RoleControllerListData,
+  RoleControllerListParams,
   RoleControllerUpdateData,
   RoleControllerUpdateParams,
+  UpdateDictDataDto,
+  UpdateDictTypeDto,
   UpdateRoleDto,
   UserControllerGetUserInfoData,
-} from './data-contracts';
-import { ContentType, HttpClient } from './http-client';
-import type { RequestParams } from './http-client';
+} from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Api<
   SecurityDataType = unknown,
@@ -46,7 +67,7 @@ export class Api<
   appControllerGetHello = (params: RequestParams = {}) =>
     this.request<AppControllerGetHelloData, any>({
       path: `/api`,
-      method: 'GET',
+      method: "GET",
       ...params,
     });
   /**
@@ -59,7 +80,7 @@ export class Api<
   appControllerHealth = (params: RequestParams = {}) =>
     this.request<AppControllerHealthData, any>({
       path: `/api/health`,
-      method: 'GET',
+      method: "GET",
       ...params,
     });
   /**
@@ -74,9 +95,9 @@ export class Api<
   authControllerGetCodes = (params: RequestParams = {}) =>
     this.request<AuthControllerGetCodesData, any>({
       path: `/api/auth/codes`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -90,10 +111,10 @@ export class Api<
   authControllerLogin = (data: LoginDto, params: RequestParams = {}) =>
     this.request<AuthControllerLoginData, any>({
       path: `/api/auth/login`,
-      method: 'POST',
+      method: "POST",
       body: data,
       type: ContentType.Json,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -107,7 +128,7 @@ export class Api<
   authControllerLogout = (params: RequestParams = {}) =>
     this.request<AuthControllerLogoutData, any>({
       path: `/api/auth/logout`,
-      method: 'POST',
+      method: "POST",
       ...params,
     });
   /**
@@ -121,8 +142,8 @@ export class Api<
   authControllerRefresh = (params: RequestParams = {}) =>
     this.request<AuthControllerRefreshData, any>({
       path: `/api/auth/refresh`,
-      method: 'POST',
-      format: 'json',
+      method: "POST",
+      format: "json",
       ...params,
     });
   /**
@@ -137,9 +158,9 @@ export class Api<
   userControllerGetUserInfo = (params: RequestParams = {}) =>
     this.request<UserControllerGetUserInfoData, any>({
       path: `/api/user/info`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -154,9 +175,9 @@ export class Api<
   menuControllerGetAllMenus = (params: RequestParams = {}) =>
     this.request<MenuControllerGetAllMenusData, any>({
       path: `/api/menu/all`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -168,12 +189,16 @@ export class Api<
    * @request GET:/api/role
    * @secure
    */
-  roleControllerList = (params: RequestParams = {}) =>
+  roleControllerList = (
+    query: RoleControllerListParams,
+    params: RequestParams = {},
+  ) =>
     this.request<RoleControllerListData, any>({
       path: `/api/role`,
-      method: 'GET',
+      method: "GET",
+      query: query,
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -188,11 +213,11 @@ export class Api<
   roleControllerCreate = (data: CreateRoleDto, params: RequestParams = {}) =>
     this.request<RoleControllerCreateData, any>({
       path: `/api/role`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -210,9 +235,9 @@ export class Api<
   ) =>
     this.request<RoleControllerDetailData, any>({
       path: `/api/role/${id}`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -231,11 +256,11 @@ export class Api<
   ) =>
     this.request<RoleControllerUpdateData, any>({
       path: `/api/role/${id}`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -253,8 +278,199 @@ export class Api<
   ) =>
     this.request<RoleControllerDeleteData, any>({
       path: `/api/role/${id}`,
-      method: 'DELETE',
+      method: "DELETE",
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerListType
+   * @summary 分页查询字典类型
+   * @request GET:/api/dict/type/list
+   * @secure
+   */
+  dictControllerListType = (
+    query: DictControllerListTypeParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerListTypeData, any>({
+      path: `/api/dict/type/list`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerCreateType
+   * @summary 创建字典类型
+   * @request POST:/api/dict/type
+   * @secure
+   */
+  dictControllerCreateType = (
+    data: CreateDictTypeDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerCreateTypeData, any>({
+      path: `/api/dict/type`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerUpdateType
+   * @summary 更新字典类型
+   * @request POST:/api/dict/type/{id}
+   * @secure
+   */
+  dictControllerUpdateType = (
+    { id }: DictControllerUpdateTypeParams,
+    data: UpdateDictTypeDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerUpdateTypeData, any>({
+      path: `/api/dict/type/${id}`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerDeleteType
+   * @summary 删除字典类型
+   * @request POST:/api/dict/type/delete/{id}
+   * @secure
+   */
+  dictControllerDeleteType = (
+    { id }: DictControllerDeleteTypeParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerDeleteTypeData, any>({
+      path: `/api/dict/type/delete/${id}`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerListData
+   * @summary 分页查询字典数据
+   * @request GET:/api/dict/data/list
+   * @secure
+   */
+  dictControllerListData = (
+    query: DictControllerListDataParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerListDataData, any>({
+      path: `/api/dict/data/list`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerCreateData
+   * @summary 创建字典数据
+   * @request POST:/api/dict/data
+   * @secure
+   */
+  dictControllerCreateData = (
+    data: CreateDictDataDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerCreateDataData, any>({
+      path: `/api/dict/data`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerUpdateData
+   * @summary 更新字典数据
+   * @request POST:/api/dict/data/{id}
+   * @secure
+   */
+  dictControllerUpdateData = (
+    { id }: DictControllerUpdateDataParams,
+    data: UpdateDictDataDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerUpdateDataData, any>({
+      path: `/api/dict/data/${id}`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerDeleteData
+   * @summary 删除单条字典数据
+   * @request POST:/api/dict/data/delete/{id}
+   * @secure
+   */
+  dictControllerDeleteData = (
+    { id }: DictControllerDeleteDataParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerDeleteDataData, any>({
+      path: `/api/dict/data/delete/${id}`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags 字典管理
+   * @name DictControllerBatchDeleteData
+   * @summary 批量删除字典数据
+   * @request POST:/api/dict/data/batchDelete
+   * @secure
+   */
+  dictControllerBatchDeleteData = (
+    data: BatchDeleteDictDataDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<DictControllerBatchDeleteDataData, any>({
+      path: `/api/dict/data/batchDelete`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
 }
