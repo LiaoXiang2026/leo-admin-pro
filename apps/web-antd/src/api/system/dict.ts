@@ -54,7 +54,10 @@ export async function createDictType(data: Partial<DictApi.DictType>) {
   return (response.data as any)?.data as DictApi.DictType;
 }
 
-export async function updateDictType(id: number, data: Partial<DictApi.DictType>) {
+export async function updateDictType(
+  id: number,
+  data: Partial<DictApi.DictType>,
+) {
   const response = await generatedApi.dictControllerUpdateType(
     { id: String(id) },
     {
@@ -102,7 +105,10 @@ export async function createDictData(data: Partial<DictApi.DictData>) {
   return (response.data as any)?.data as DictApi.DictData;
 }
 
-export async function updateDictData(id: number, data: Partial<DictApi.DictData>) {
+export async function updateDictData(
+  id: number,
+  data: Partial<DictApi.DictData>,
+) {
   const response = await generatedApi.dictControllerUpdateData(
     { id: String(id) },
     {
