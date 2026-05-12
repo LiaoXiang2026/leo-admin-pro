@@ -81,15 +81,19 @@ export async function createDictType(data: Partial<DictApi.DictType>) {
 export async function updateDictType(id: number, data: Partial<DictApi.DictType>) {
   const idx = mockTypes.findIndex(i => i.id === id);
   if (idx === -1) throw new Error('Type not found');
-  Object.assign(mockTypes[idx], data);
-  return mockTypes[idx];
+  const item = mockTypes[idx];
+  if (!item) throw new Error('Type not found');
+  Object.assign(item, data);
+  return item;
 }
 
 export async function deleteDictType(id: number) {
   const idx = mockTypes.findIndex(i => i.id === id);
   if (idx === -1) throw new Error('Type not found');
+  const item = mockTypes[idx];
+  if (!item) throw new Error('Type not found');
   // 检查是否有数据
-  const hasData = mockData.some(d => d.typeCode === mockTypes[idx].code);
+  const hasData = mockData.some(d => d.typeCode === item.code);
   if (hasData) throw new Error('该类型下存在字典数据，请先删除数据');
   mockTypes.splice(idx, 1);
   return true;
@@ -122,8 +126,10 @@ export async function createDictData(data: Partial<DictApi.DictData>) {
 export async function updateDictData(id: number, data: Partial<DictApi.DictData>) {
   const idx = mockData.findIndex(i => i.id === id);
   if (idx === -1) throw new Error('Data not found');
-  Object.assign(mockData[idx], data);
-  return mockData[idx];
+  const item = mockData[idx];
+  if (!item) throw new Error('Data not found');
+  Object.assign(item, data);
+  return item;
 }
 
 export async function deleteDictData(id: number) {
