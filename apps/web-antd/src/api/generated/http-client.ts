@@ -53,6 +53,7 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
   secure?: boolean;
   format?: ResponseType;
+  responseReturn?: 'raw' | 'body';
 }
 
 export enum ContentType {
@@ -69,11 +70,13 @@ export class HttpClient<SecurityDataType = unknown> {
   private securityWorker?: ApiConfig<SecurityDataType>['securityWorker'];
   private secure?: boolean;
   private format?: ResponseType;
+  private responseReturn?: 'raw' | 'body';
 
   constructor({
     securityWorker,
     secure,
     format,
+    responseReturn,
     ...axiosConfig
   }: ApiConfig<SecurityDataType> = {}) {
     this.instance = axios.create({
@@ -83,6 +86,7 @@ export class HttpClient<SecurityDataType = unknown> {
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
+    this.responseReturn = responseReturn;
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {
@@ -148,7 +152,7 @@ export class HttpClient<SecurityDataType = unknown> {
     format,
     body,
     ...params
-  }: FullRequestParams): Promise<AxiosResponse<T>> => {
+  }: FullRequestParams): Promise<AxiosResponse<T> | T> => {
     const secureParams =
       ((typeof secure === 'boolean' ? secure : this.secure) &&
         this.securityWorker &&
@@ -175,7 +179,7 @@ export class HttpClient<SecurityDataType = unknown> {
       body = JSON.stringify(body);
     }
 
-    return this.instance.request({
+    const response = await this.instance.request({
       ...requestParams,
       headers: {
         ...(requestParams.headers || {}),
@@ -186,5 +190,10 @@ export class HttpClient<SecurityDataType = unknown> {
       data: body,
       url: path,
     });
+
+    if (this.responseReturn === 'body') {
+      return response.data;
+    }
+    return response;
   };
 }

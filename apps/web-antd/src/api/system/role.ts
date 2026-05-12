@@ -7,7 +7,7 @@ export namespace SystemRoleApi {
     description: string;
     createdAt: string;
     updatedAt: string;
-    permissions?: { code: string; id: string; name: string }[];
+    permissions?: { id: string; code: string; name: string }[];
   }
 
   export interface RoleListParams {
@@ -18,10 +18,5 @@ export namespace SystemRoleApi {
 }
 
 export async function getRoleList(params?: SystemRoleApi.RoleListParams) {
-  const response = await generatedApi.roleControllerList(params || {});
-  const result = (response.data as any)?.data ?? { items: [], total: 0 };
-  return {
-    items: result.items as SystemRoleApi.SystemRole[],
-    total: result.total as number,
-  };
+  return await generatedApi.roleControllerList(params || {});
 }

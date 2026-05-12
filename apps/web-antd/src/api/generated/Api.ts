@@ -19,7 +19,7 @@ import {
   AuthControllerRefreshData,
   BatchDeleteDictDataDto,
   CreateDictDataDto,
-  CreateDictTypeDto,
+  Dto,
   CreateRoleDto,
   DictControllerBatchDeleteDataData,
   DictControllerCreateDataData,

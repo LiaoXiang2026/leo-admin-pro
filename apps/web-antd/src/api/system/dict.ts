@@ -35,30 +35,23 @@ export namespace DictApi {
   }
 }
 
-// ---- type apis ----
 export async function getDictTypeList(params?: DictApi.DictTypeListParams) {
-  const response = await generatedApi.dictControllerListType(params || {});
-  const result = (response.data as any)?.data ?? { items: [], total: 0 };
-  return {
-    items: result.items as DictApi.DictType[],
-    total: result.total as number,
-  };
+  return await generatedApi.dictControllerListType(params || {});
 }
 
 export async function createDictType(data: Partial<DictApi.DictType>) {
-  const response = await generatedApi.dictControllerCreateType({
+  return await generatedApi.dictControllerCreateType({
     code: data.code || '',
     name: data.name || '',
     remark: data.remark,
   });
-  return (response.data as any)?.data as DictApi.DictType;
 }
 
 export async function updateDictType(
   id: number,
   data: Partial<DictApi.DictType>,
 ) {
-  const response = await generatedApi.dictControllerUpdateType(
+  return await generatedApi.dictControllerUpdateType(
     { id: String(id) },
     {
       code: data.code,
@@ -66,7 +59,6 @@ export async function updateDictType(
       remark: data.remark,
     },
   );
-  return (response.data as any)?.data as DictApi.DictType;
 }
 
 export async function deleteDictType(id: number) {
@@ -74,27 +66,17 @@ export async function deleteDictType(id: number) {
   return true;
 }
 
-// ---- data apis ----
 export async function getDictDataList(params: DictApi.DictDataListParams) {
-  const response = await generatedApi.dictControllerListData({
+  return await generatedApi.dictControllerListData({
     page: params.page,
     pageSize: params.pageSize,
     typeCode: params.typeCode,
     label: params.label,
   });
-  const result = (response.data as any)?.data ?? { items: [], total: 0 };
-  return {
-    items: (result.items as any[]).map((item) => ({
-      ...item,
-      sort: item.sort ?? 0,
-      status: item.status ?? 1,
-    })) as DictApi.DictData[],
-    total: result.total as number,
-  };
 }
 
 export async function createDictData(data: Partial<DictApi.DictData>) {
-  const response = await generatedApi.dictControllerCreateData({
+  return await generatedApi.dictControllerCreateData({
     typeCode: data.typeCode || '',
     label: data.label || '',
     value: data.value || '',
@@ -102,14 +84,13 @@ export async function createDictData(data: Partial<DictApi.DictData>) {
     status: data.status ?? 1,
     remark: data.remark,
   });
-  return (response.data as any)?.data as DictApi.DictData;
 }
 
 export async function updateDictData(
   id: number,
   data: Partial<DictApi.DictData>,
 ) {
-  const response = await generatedApi.dictControllerUpdateData(
+  return await generatedApi.dictControllerUpdateData(
     { id: String(id) },
     {
       label: data.label,
@@ -119,7 +100,6 @@ export async function updateDictData(
       remark: data.remark,
     },
   );
-  return (response.data as any)?.data as DictApi.DictData;
 }
 
 export async function deleteDictData(id: number) {
