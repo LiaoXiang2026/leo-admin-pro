@@ -11,15 +11,13 @@
  */
 
 import {
-  AppControllerGetHelloData,
-  AppControllerHealthData,
   AuthControllerGetCodesData,
   AuthControllerLoginData,
   AuthControllerLogoutData,
   AuthControllerRefreshData,
   BatchDeleteDictDataDto,
   CreateDictDataDto,
-  Dto,
+  CreateDictTypeDto,
   CreateRoleDto,
   DictControllerBatchDeleteDataData,
   DictControllerCreateDataData,
@@ -51,38 +49,12 @@ import {
   UpdateDictTypeDto,
   UpdateRoleDto,
   UserControllerGetUserInfoData,
-} from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+} from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Api<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
-  /**
-   * No description
-   *
-   * @tags App
-   * @name AppControllerGetHello
-   * @request GET:/api
-   */
-  appControllerGetHello = (params: RequestParams = {}) =>
-    this.request<AppControllerGetHelloData, any>({
-      path: `/api`,
-      method: 'GET',
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags App
-   * @name AppControllerHealth
-   * @request GET:/api/health
-   */
-  appControllerHealth = (params: RequestParams = {}) =>
-    this.request<AppControllerHealthData, any>({
-      path: `/api/health`,
-      method: 'GET',
-      ...params,
-    });
   /**
    * No description
    *
@@ -95,9 +67,9 @@ export class Api<
   authControllerGetCodes = (params: RequestParams = {}) =>
     this.request<AuthControllerGetCodesData, any>({
       path: `/api/auth/codes`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
+      format: "json",
       ...params,
     });
   /**
@@ -111,10 +83,9 @@ export class Api<
   authControllerLogin = (data: LoginDto, params: RequestParams = {}) =>
     this.request<AuthControllerLoginData, any>({
       path: `/api/auth/login`,
-      method: 'POST',
+      method: "POST",
       body: data,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -128,7 +99,7 @@ export class Api<
   authControllerLogout = (params: RequestParams = {}) =>
     this.request<AuthControllerLogoutData, any>({
       path: `/api/auth/logout`,
-      method: 'POST',
+      method: "POST",
       ...params,
     });
   /**
@@ -142,8 +113,7 @@ export class Api<
   authControllerRefresh = (params: RequestParams = {}) =>
     this.request<AuthControllerRefreshData, any>({
       path: `/api/auth/refresh`,
-      method: 'POST',
-      format: 'json',
+      method: "POST",
       ...params,
     });
   /**
@@ -158,9 +128,8 @@ export class Api<
   userControllerGetUserInfo = (params: RequestParams = {}) =>
     this.request<UserControllerGetUserInfoData, any>({
       path: `/api/user/info`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -175,9 +144,8 @@ export class Api<
   menuControllerGetAllMenus = (params: RequestParams = {}) =>
     this.request<MenuControllerGetAllMenusData, any>({
       path: `/api/menu/all`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -195,10 +163,9 @@ export class Api<
   ) =>
     this.request<RoleControllerListData, any>({
       path: `/api/role`,
-      method: 'GET',
+      method: "GET",
       query: query,
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -213,11 +180,10 @@ export class Api<
   roleControllerCreate = (data: CreateRoleDto, params: RequestParams = {}) =>
     this.request<RoleControllerCreateData, any>({
       path: `/api/role`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -235,9 +201,8 @@ export class Api<
   ) =>
     this.request<RoleControllerDetailData, any>({
       path: `/api/role/${id}`,
-      method: 'GET',
+      method: "GET",
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -256,11 +221,10 @@ export class Api<
   ) =>
     this.request<RoleControllerUpdateData, any>({
       path: `/api/role/${id}`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -278,7 +242,7 @@ export class Api<
   ) =>
     this.request<RoleControllerDeleteData, any>({
       path: `/api/role/${id}`,
-      method: 'DELETE',
+      method: "DELETE",
       secure: true,
       ...params,
     });
@@ -297,10 +261,9 @@ export class Api<
   ) =>
     this.request<DictControllerListTypeData, any>({
       path: `/api/dict/type/list`,
-      method: 'GET',
+      method: "GET",
       query: query,
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -318,11 +281,10 @@ export class Api<
   ) =>
     this.request<DictControllerCreateTypeData, any>({
       path: `/api/dict/type`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -341,11 +303,10 @@ export class Api<
   ) =>
     this.request<DictControllerUpdateTypeData, any>({
       path: `/api/dict/type/${id}`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -363,7 +324,7 @@ export class Api<
   ) =>
     this.request<DictControllerDeleteTypeData, any>({
       path: `/api/dict/type/delete/${id}`,
-      method: 'POST',
+      method: "POST",
       secure: true,
       ...params,
     });
@@ -382,10 +343,9 @@ export class Api<
   ) =>
     this.request<DictControllerListDataData, any>({
       path: `/api/dict/data/list`,
-      method: 'GET',
+      method: "GET",
       query: query,
       secure: true,
-      format: 'json',
       ...params,
     });
   /**
@@ -403,11 +363,10 @@ export class Api<
   ) =>
     this.request<DictControllerCreateDataData, any>({
       path: `/api/dict/data`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -426,11 +385,10 @@ export class Api<
   ) =>
     this.request<DictControllerUpdateDataData, any>({
       path: `/api/dict/data/${id}`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: 'json',
       ...params,
     });
   /**
@@ -448,7 +406,7 @@ export class Api<
   ) =>
     this.request<DictControllerDeleteDataData, any>({
       path: `/api/dict/data/delete/${id}`,
-      method: 'POST',
+      method: "POST",
       secure: true,
       ...params,
     });
@@ -467,7 +425,7 @@ export class Api<
   ) =>
     this.request<DictControllerBatchDeleteDataData, any>({
       path: `/api/dict/data/batchDelete`,
-      method: 'POST',
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
