@@ -44,7 +44,9 @@ async function onSubmit(values: Record<string, any>) {
         { id: String(props.record.id) },
         payload,
       );
-      message.success($t('ui.actionMessage.updateSuccess', [$t('system.dict.data.title')]));
+      message.success(
+        $t('ui.actionMessage.updateSuccess', [$t('system.dict.data.title')]),
+      );
     } else {
       const payload: CreateDictDataDto = {
         typeCode: props.typeCode || '',
@@ -55,7 +57,9 @@ async function onSubmit(values: Record<string, any>) {
         remark: values.remark,
       };
       await generatedApi.dictControllerCreateData(payload);
-      message.success($t('ui.actionMessage.createSuccess', [$t('system.dict.data.title')]));
+      message.success(
+        $t('ui.actionMessage.createSuccess', [$t('system.dict.data.title')]),
+      );
     }
     emit('success');
   } catch (error: any) {

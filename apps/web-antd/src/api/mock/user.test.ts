@@ -1,11 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  createUser,
-  deleteUser,
-  getUserList,
-  updateUser,
-} from './user';
+import { createUser, deleteUser, getUserList, updateUser } from './user';
 
 describe('user mock api', () => {
   it('filters and paginates users', async () => {

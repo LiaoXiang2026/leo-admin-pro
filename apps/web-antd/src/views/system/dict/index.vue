@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import type { OnActionClickParams, VxeTableGridOptions } from '#/adapter/vxe-table';
 import type {
-  DictDataEntity,
+  OnActionClickParams,
+  VxeTableGridOptions,
+} from '#/adapter/vxe-table';
+import type {
   DictControllerListDataParams,
   DictControllerListTypeParams,
+  DictDataEntity,
   DictTypeEntity,
 } from '#/api/generated/data-contracts';
 
@@ -20,7 +23,12 @@ import { $t } from '#/locales';
 
 import DictDataModal from './components/DictDataModal.vue';
 import DictTypeModal from './components/DictTypeModal.vue';
-import { useDataColumns, useDataGridFormSchema, useTypeColumns, useTypeGridFormSchema } from './schema';
+import {
+  useDataColumns,
+  useDataGridFormSchema,
+  useTypeColumns,
+  useTypeGridFormSchema,
+} from './schema';
 
 // ===== Type State =====
 const selectedType = ref<DictTypeEntity | null>(null);
@@ -171,7 +179,9 @@ function onDataActionClick(e: OnActionClickParams<DictDataEntity>) {
 }
 
 function onEditData(row: DictDataEntity) {
-  dataModalApi.setData({ record: row, typeCode: selectedTypeCode.value }).open();
+  dataModalApi
+    .setData({ record: row, typeCode: selectedTypeCode.value })
+    .open();
 }
 
 function onDeleteData(row: DictDataEntity) {
@@ -199,7 +209,9 @@ function onCreateData() {
     message.warning('请先选择一个字典类型');
     return;
   }
-  dataModalApi.setData({ record: null, typeCode: selectedTypeCode.value }).open();
+  dataModalApi
+    .setData({ record: null, typeCode: selectedTypeCode.value })
+    .open();
 }
 
 function onDataSuccess() {
@@ -235,7 +247,13 @@ function onTypeRowClick({ row }: { row: DictTypeEntity }) {
       <!-- Right: Data List -->
       <div class="w-2/3 flex flex-col">
         <DataModal @success="onDataSuccess" />
-        <DataGrid :table-title="selectedType ? `${selectedType.name} - ${$t('system.dict.data.title')}` : $t('system.dict.data.title')">
+        <DataGrid
+          :table-title="
+            selectedType
+              ? `${selectedType.name} - ${$t('system.dict.data.title')}`
+              : $t('system.dict.data.title')
+          "
+        >
           <template #toolbar-tools>
             <Button type="primary" @click="onCreateData">
               <Plus class="size-5" />

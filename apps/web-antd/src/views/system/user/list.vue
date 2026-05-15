@@ -14,8 +14,8 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteUser, getUserList } from '#/api/mock/user';
 import { $t } from '#/locales';
 
-import { useColumns, useGridFormSchema } from './schema';
 import Form from './modules/form.vue';
+import { useColumns, useGridFormSchema } from './schema';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,

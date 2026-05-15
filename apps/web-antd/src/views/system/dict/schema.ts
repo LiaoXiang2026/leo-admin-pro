@@ -34,7 +34,11 @@ export function useTypeColumns<T = DictTypeEntity>(
     {
       align: 'center',
       cellRender: {
-        attrs: { nameField: 'name', nameTitle: $t('system.dict.type.title'), onClick: onActionClick },
+        attrs: {
+          nameField: 'name',
+          nameTitle: $t('system.dict.type.title'),
+          onClick: onActionClick,
+        },
         name: 'CellOperation',
       },
       field: 'operation',
@@ -102,7 +106,11 @@ export function useDataColumns<T = DictDataEntity>(
     {
       align: 'center',
       cellRender: {
-        attrs: { nameField: 'label', nameTitle: $t('system.dict.data.title'), onClick: onActionClick },
+        attrs: {
+          nameField: 'label',
+          nameTitle: $t('system.dict.data.title'),
+          onClick: onActionClick,
+        },
         name: 'CellOperation',
       },
       field: 'operation',
