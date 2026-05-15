@@ -1,17 +1,21 @@
 <script lang="ts" setup>
-import type { DictApi } from '#/api';
+import type {
+  CreateDictTypeDto,
+  DictTypeEntity,
+  UpdateDictTypeDto,
+} from '#/api/generated/data-contracts';
 
 import { useVbenForm } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
 
-import { createDictType, updateDictType } from '#/api/system/dict';
+import { generatedApi } from '#/api/generated';
 import { $t } from '#/locales';
 
 import { useTypeFormSchema } from '../schema';
 
 interface Props {
-  record?: DictApi.DictType | null;
+  record?: DictTypeEntity | null;
 }
 
 const props = defineProps<Props>();
@@ -28,10 +32,23 @@ const [Form, formApi] = useVbenForm({
 async function onSubmit(values: Record<string, any>) {
   try {
     if (props.record?.id) {
-      await updateDictType(props.record.id, values);
+      const payload: UpdateDictTypeDto = {
+        code: values.code,
+        name: values.name,
+        remark: values.remark,
+      };
+      await generatedApi.dictControllerUpdateType(
+        { id: String(props.record.id) },
+        payload,
+      );
       message.success($t('ui.actionMessage.updateSuccess', [$t('system.dict.type.title')]));
     } else {
-      await createDictType(values);
+      const payload: CreateDictTypeDto = {
+        code: values.code,
+        name: values.name,
+        remark: values.remark,
+      };
+      await generatedApi.dictControllerCreateType(payload);
       message.success($t('ui.actionMessage.createSuccess', [$t('system.dict.type.title')]));
     }
     emit('success');

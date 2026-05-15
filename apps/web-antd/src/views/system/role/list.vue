@@ -3,7 +3,10 @@ import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api';
+import type {
+  RoleControllerListParams,
+  RoleEntity,
+} from '#/api/generated/data-contracts';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
@@ -12,7 +15,6 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { generatedApi } from '#/api/generated';
-import { getRoleList } from '#/api/system/role';
 import { $t } from '#/locales';
 
 import { useColumns, useGridFormSchema } from './schema';
@@ -35,11 +37,11 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await getRoleList({
+          return await generatedApi.roleControllerList({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
-          });
+          } satisfies RoleControllerListParams);
         },
       },
     },
@@ -53,10 +55,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<SystemRoleApi.SystemRole>,
+  } as VxeTableGridOptions<RoleEntity>,
 });
 
-function onActionClick(e: OnActionClickParams<SystemRoleApi.SystemRole>) {
+function onActionClick(e: OnActionClickParams<RoleEntity>) {
   switch (e.code) {
     case 'delete': {
       onDelete(e.row);
@@ -69,11 +71,11 @@ function onActionClick(e: OnActionClickParams<SystemRoleApi.SystemRole>) {
   }
 }
 
-function onEdit(row: SystemRoleApi.SystemRole) {
+function onEdit(row: RoleEntity) {
   formDrawerApi.setData(row).open();
 }
 
-function onDelete(row: SystemRoleApi.SystemRole) {
+function onDelete(row: RoleEntity) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.name]),
     duration: 0,

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { SystemUserApi } from '#/api/system/user';
+import type { SystemUserApi } from '#/api/mock/user';
 
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
-import { createUser, updateUser } from '#/api/system/user';
+import { createUser, updateUser } from '#/api/mock/user';
 import { $t } from '#/locales';
 
 import { useFormSchema } from '../schema';

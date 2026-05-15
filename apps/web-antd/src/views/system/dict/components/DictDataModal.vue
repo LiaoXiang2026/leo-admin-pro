@@ -1,17 +1,21 @@
 <script lang="ts" setup>
-import type { DictApi } from '#/api';
+import type {
+  CreateDictDataDto,
+  DictDataEntity,
+  UpdateDictDataDto,
+} from '#/api/generated/data-contracts';
 
 import { useVbenForm } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
 
-import { createDictData, updateDictData } from '#/api/system/dict';
+import { generatedApi } from '#/api/generated';
 import { $t } from '#/locales';
 
 import { useDataFormSchema } from '../schema';
 
 interface Props {
-  record?: DictApi.DictData | null;
+  record?: DictDataEntity | null;
   typeCode?: string;
 }
 
@@ -28,12 +32,29 @@ const [Form, formApi] = useVbenForm({
 
 async function onSubmit(values: Record<string, any>) {
   try {
-    const data = { ...values, typeCode: props.typeCode };
     if (props.record?.id) {
-      await updateDictData(props.record.id, data);
+      const payload: UpdateDictDataDto = {
+        label: values.label,
+        value: values.value,
+        sort: values.sort,
+        status: values.status,
+        remark: values.remark,
+      };
+      await generatedApi.dictControllerUpdateData(
+        { id: String(props.record.id) },
+        payload,
+      );
       message.success($t('ui.actionMessage.updateSuccess', [$t('system.dict.data.title')]));
     } else {
-      await createDictData(data);
+      const payload: CreateDictDataDto = {
+        typeCode: props.typeCode || '',
+        label: values.label,
+        value: values.value,
+        sort: values.sort,
+        status: values.status,
+        remark: values.remark,
+      };
+      await generatedApi.dictControllerCreateData(payload);
       message.success($t('ui.actionMessage.createSuccess', [$t('system.dict.data.title')]));
     }
     emit('success');

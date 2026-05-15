@@ -1,6 +1,9 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridColumns } from '#/adapter/vxe-table';
-import type { DictApi } from '#/api';
+import type {
+  DictDataEntity,
+  DictTypeEntity,
+} from '#/api/generated/data-contracts';
 
 import { $t } from '#/locales';
 
@@ -21,7 +24,7 @@ export function useTypeGridFormSchema(): VbenFormSchema[] {
   ];
 }
 
-export function useTypeColumns<T = DictApi.DictType>(
+export function useTypeColumns<T = DictTypeEntity>(
   onActionClick: OnActionClickFn<T>,
 ): VxeTableGridColumns {
   return [
@@ -82,7 +85,7 @@ export function useDataGridFormSchema(): VbenFormSchema[] {
   ];
 }
 
-export function useDataColumns<T = DictApi.DictData>(
+export function useDataColumns<T = DictDataEntity>(
   onActionClick: OnActionClickFn<T>,
 ): VxeTableGridColumns {
   return [

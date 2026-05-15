@@ -1,7 +1,3 @@
-// NOTE: Backend does not yet expose user CRUD endpoints. These are in-memory mocks.
-// When the backend adds /api/user endpoints, regenerate with `pnpm -F @vben/web-antd run generate:api`
-// and replace the mock implementations below with real API calls (see system/role.ts for pattern).
-
 export namespace SystemUserApi {
   export interface SystemUser {
     id: number;

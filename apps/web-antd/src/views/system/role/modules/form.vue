@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SystemRoleApi } from '#/api/system/role';
+import type { RoleEntity } from '#/api/generated/data-contracts';
 
 import { computed, ref } from 'vue';
 
@@ -13,7 +13,7 @@ import { useFormSchema } from '../schema';
 
 const emits = defineEmits(['success']);
 
-const formData = ref<SystemRoleApi.SystemRole>();
+const formData = ref<RoleEntity>();
 
 const [Form, formApi] = useVbenForm({
   schema: useFormSchema(),
@@ -43,7 +43,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
   async onOpenChange(isOpen) {
     if (isOpen) {
-      const data = drawerApi.getData<SystemRoleApi.SystemRole>();
+      const data = drawerApi.getData<RoleEntity>();
       formApi.resetForm();
 
       if (data?.id) {

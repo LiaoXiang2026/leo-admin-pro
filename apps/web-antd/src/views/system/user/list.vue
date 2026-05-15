@@ -11,7 +11,7 @@ import { Plus } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteUser, getUserList } from '#/api/system/user';
+import { deleteUser, getUserList } from '#/api/mock/user';
 import { $t } from '#/locales';
 
 import { useColumns, useGridFormSchema } from './schema';

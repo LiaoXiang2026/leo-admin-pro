@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import type { OnActionClickParams, VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { DictApi } from '#/api';
+import type {
+  DictDataEntity,
+  DictControllerListDataParams,
+  DictControllerListTypeParams,
+  DictTypeEntity,
+} from '#/api/generated/data-contracts';
 
 import { computed, ref } from 'vue';
 
@@ -10,7 +15,7 @@ import { Plus } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteDictData, deleteDictType, getDictDataList, getDictTypeList } from '#/api/system/dict';
+import { generatedApi } from '#/api/generated';
 import { $t } from '#/locales';
 
 import DictDataModal from './components/DictDataModal.vue';
@@ -18,7 +23,7 @@ import DictTypeModal from './components/DictTypeModal.vue';
 import { useDataColumns, useDataGridFormSchema, useTypeColumns, useTypeGridFormSchema } from './schema';
 
 // ===== Type State =====
-const selectedType = ref<DictApi.DictType | null>(null);
+const selectedType = ref<DictTypeEntity | null>(null);
 const selectedTypeCode = computed(() => selectedType.value?.code);
 
 const [TypeModal, typeModalApi] = useVbenDrawer({
@@ -37,11 +42,11 @@ const [TypeGrid, typeGridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await getDictTypeList({
+          return await generatedApi.dictControllerListType({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
-          });
+          } satisfies DictControllerListTypeParams);
         },
       },
     },
@@ -55,10 +60,10 @@ const [TypeGrid, typeGridApi] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<DictApi.DictType>,
+  } as VxeTableGridOptions<DictTypeEntity>,
 });
 
-function onTypeActionClick(e: OnActionClickParams<DictApi.DictType>) {
+function onTypeActionClick(e: OnActionClickParams<DictTypeEntity>) {
   switch (e.code) {
     case 'delete': {
       onDeleteType(e.row);
@@ -71,17 +76,18 @@ function onTypeActionClick(e: OnActionClickParams<DictApi.DictType>) {
   }
 }
 
-function onEditType(row: DictApi.DictType) {
+function onEditType(row: DictTypeEntity) {
   typeModalApi.setData({ record: row }).open();
 }
 
-function onDeleteType(row: DictApi.DictType) {
+function onDeleteType(row: DictTypeEntity) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.name]),
     duration: 0,
     key: 'action_process_msg',
   });
-  deleteDictType(row.id)
+  generatedApi
+    .dictControllerDeleteType({ id: String(row.id) })
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),
@@ -129,12 +135,12 @@ const [DataGrid, dataGridApi] = useVbenVxeGrid({
           if (!selectedTypeCode.value) {
             return { items: [], total: 0 };
           }
-          return await getDictDataList({
+          return await generatedApi.dictControllerListData({
             page: page.currentPage,
             pageSize: page.pageSize,
             typeCode: selectedTypeCode.value,
             ...formValues,
-          });
+          } satisfies DictControllerListDataParams);
         },
       },
     },
@@ -148,10 +154,10 @@ const [DataGrid, dataGridApi] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<DictApi.DictData>,
+  } as VxeTableGridOptions<DictDataEntity>,
 });
 
-function onDataActionClick(e: OnActionClickParams<DictApi.DictData>) {
+function onDataActionClick(e: OnActionClickParams<DictDataEntity>) {
   switch (e.code) {
     case 'delete': {
       onDeleteData(e.row);
@@ -164,17 +170,18 @@ function onDataActionClick(e: OnActionClickParams<DictApi.DictData>) {
   }
 }
 
-function onEditData(row: DictApi.DictData) {
+function onEditData(row: DictDataEntity) {
   dataModalApi.setData({ record: row, typeCode: selectedTypeCode.value }).open();
 }
 
-function onDeleteData(row: DictApi.DictData) {
+function onDeleteData(row: DictDataEntity) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.label]),
     duration: 0,
     key: 'action_process_msg',
   });
-  deleteDictData(row.id)
+  generatedApi
+    .dictControllerDeleteData({ id: String(row.id) })
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.label]),
@@ -200,7 +207,7 @@ function onDataSuccess() {
   dataModalApi.close();
 }
 
-function onTypeRowClick({ row }: { row: DictApi.DictType }) {
+function onTypeRowClick({ row }: { row: DictTypeEntity }) {
   selectedType.value = row;
   dataGridApi.query();
 }
