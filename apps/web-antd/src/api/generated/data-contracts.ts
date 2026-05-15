@@ -10,6 +10,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface CodesResponse {
+  /** 权限码列表 */
+  codes: string[];
+}
+
 export interface LoginDto {
   /**
    * 密码
@@ -21,6 +26,94 @@ export interface LoginDto {
    * @example "admin"
    */
   username: string;
+}
+
+export interface PermissionEntity {
+  /** 权限ID */
+  id: string;
+  /** 权限码 */
+  code: string;
+  /** 权限名称 */
+  name: string;
+  /** 创建时间 */
+  createdAt: string;
+}
+
+export interface RoleEntity {
+  /** 角色ID */
+  id: string;
+  /** 角色名称 */
+  name: string;
+  /** 角色描述 */
+  description?: string;
+  /** 创建时间 */
+  createdAt: string;
+  /** 更新时间 */
+  updatedAt: string;
+  /** 权限列表 */
+  permissions?: PermissionEntity[];
+}
+
+export interface LoginResponse {
+  /** 访问令牌 */
+  accessToken: string;
+  /** 刷新令牌 */
+  refreshToken: string;
+  /** 用户ID */
+  id: string;
+  /** 用户名 */
+  username: string;
+  /** 真实姓名 */
+  realName: string;
+  /** 头像 */
+  avatar?: string;
+  /** 描述 */
+  desc?: string;
+  /** 首页路径 */
+  homePath: string;
+  /** 创建时间 */
+  createdAt: string;
+  /** 更新时间 */
+  updatedAt: string;
+  /** 角色列表 */
+  roles?: RoleEntity[];
+}
+
+export interface RefreshResponse {
+  /** 新的访问令牌 */
+  data: string;
+  /** 状态码 */
+  status: number;
+}
+
+export interface UserEntity {
+  /** 用户ID */
+  id: string;
+  /** 用户名 */
+  username: string;
+  /** 真实姓名 */
+  realName: string;
+  /** 头像 */
+  avatar?: string;
+  /** 描述 */
+  desc?: string;
+  /** 首页路径 */
+  homePath: string;
+  /** JWT Token */
+  token: string;
+  /** 创建时间 */
+  createdAt: string;
+  /** 更新时间 */
+  updatedAt: string;
+  /** 角色列表 */
+  roles?: RoleEntity[];
+}
+
+export interface RolePageResultDto {
+  /** 角色列表 */
+  items: RoleEntity[];
+  /** 总数 */
+  total: number;
 }
 
 export interface CreateRoleDto {
@@ -41,6 +134,29 @@ export interface UpdateRoleDto {
   permissionIds?: string[];
 }
 
+export interface DictTypeEntity {
+  /** 字典类型ID */
+  id: number;
+  /** 类型编码 */
+  code: string;
+  /** 类型名称 */
+  name: string;
+  /** 备注 */
+  remark?: string;
+  /**
+   * 创建时间
+   * @format date-time
+   */
+  createdAt: string;
+}
+
+export interface DictTypePageResultDto {
+  /** 字典类型列表 */
+  items: DictTypeEntity[];
+  /** 总数 */
+  total: number;
+}
+
 export interface CreateDictTypeDto {
   /** 类型编码 */
   code: string;
@@ -57,6 +173,35 @@ export interface UpdateDictTypeDto {
   name?: string;
   /** 备注 */
   remark?: string;
+}
+
+export interface DictDataEntity {
+  /** 字典数据ID */
+  id: number;
+  /** 所属类型编码 */
+  typeCode: string;
+  /** 标签名 */
+  label: string;
+  /** 字典值 */
+  value: string;
+  /** 排序 */
+  sort?: number;
+  /** 状态：1启用，0禁用 */
+  status?: number;
+  /** 备注 */
+  remark?: string;
+  /**
+   * 创建时间
+   * @format date-time
+   */
+  createdAt: string;
+}
+
+export interface DictDataPageResultDto {
+  /** 字典数据列表 */
+  items: DictDataEntity[];
+  /** 总数 */
+  total: number;
 }
 
 export interface CreateDictDataDto {
@@ -98,17 +243,15 @@ export interface BatchDeleteDictDataDto {
   ids: number[];
 }
 
-export type AuthControllerGetCodesData = string[];
+export type AuthControllerGetCodesData = CodesResponse;
 
-export type AuthControllerLoginData = any;
+export type AuthControllerLoginData = LoginResponse;
 
-export type AuthControllerLogoutData = any;
+export type AuthControllerLogoutData = object;
 
-export type AuthControllerRefreshData = any;
+export type AuthControllerRefreshData = RefreshResponse;
 
-export type UserControllerGetUserInfoData = any;
-
-export type MenuControllerGetAllMenusData = any;
+export type UserControllerGetUserInfoData = UserEntity;
 
 export interface RoleControllerListParams {
   /**
@@ -126,27 +269,27 @@ export interface RoleControllerListParams {
   pageSize?: number;
 }
 
-export type RoleControllerListData = any;
+export type RoleControllerListData = RolePageResultDto;
 
-export type RoleControllerCreateData = any;
+export type RoleControllerCreateData = RoleEntity;
 
 export interface RoleControllerDetailParams {
   id: string;
 }
 
-export type RoleControllerDetailData = any;
+export type RoleControllerDetailData = RoleEntity;
 
 export interface RoleControllerUpdateParams {
   id: string;
 }
 
-export type RoleControllerUpdateData = any;
+export type RoleControllerUpdateData = RoleEntity;
 
 export interface RoleControllerDeleteParams {
   id: string;
 }
 
-export type RoleControllerDeleteData = any;
+export type RoleControllerDeleteData = object;
 
 export interface DictControllerListTypeParams {
   /**
@@ -168,21 +311,21 @@ export interface DictControllerListTypeParams {
   name?: string;
 }
 
-export type DictControllerListTypeData = any;
+export type DictControllerListTypeData = DictTypePageResultDto;
 
-export type DictControllerCreateTypeData = any;
+export type DictControllerCreateTypeData = DictTypeEntity;
 
 export interface DictControllerUpdateTypeParams {
   id: string;
 }
 
-export type DictControllerUpdateTypeData = any;
+export type DictControllerUpdateTypeData = DictTypeEntity;
 
 export interface DictControllerDeleteTypeParams {
   id: string;
 }
 
-export type DictControllerDeleteTypeData = any;
+export type DictControllerDeleteTypeData = boolean;
 
 export interface DictControllerListDataParams {
   /**
@@ -204,20 +347,20 @@ export interface DictControllerListDataParams {
   label?: string;
 }
 
-export type DictControllerListDataData = any;
+export type DictControllerListDataData = DictDataPageResultDto;
 
-export type DictControllerCreateDataData = any;
+export type DictControllerCreateDataData = DictDataEntity;
 
 export interface DictControllerUpdateDataParams {
   id: string;
 }
 
-export type DictControllerUpdateDataData = any;
+export type DictControllerUpdateDataData = DictDataEntity;
 
 export interface DictControllerDeleteDataParams {
   id: string;
 }
 
-export type DictControllerDeleteDataData = any;
+export type DictControllerDeleteDataData = boolean;
 
-export type DictControllerBatchDeleteDataData = any;
+export type DictControllerBatchDeleteDataData = boolean;

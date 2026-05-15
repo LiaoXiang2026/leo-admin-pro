@@ -11,7 +11,6 @@ export const generatedApi = new Api({
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   },
-  responseReturn: 'body',
   securityWorker: async () => {
     const accessStore = useAccessStore();
     return accessStore.accessToken
