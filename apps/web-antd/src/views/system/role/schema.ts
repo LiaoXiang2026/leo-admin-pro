@@ -1,6 +1,6 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridColumns } from '#/adapter/vxe-table';
-import type { RoleEntity } from '#/api/generated/data-contracts';
+import type { RoleEntity } from '#/api/swagger/Api';
 
 import { $t } from '#/locales';
 

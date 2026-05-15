@@ -1,9 +1,6 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridColumns } from '#/adapter/vxe-table';
-import type {
-  DictDataEntity,
-  DictTypeEntity,
-} from '#/api/generated/data-contracts';
+import type { DictDataEntity, DictTypeEntity } from '#/api/swagger/Api';
 
 import { $t } from '#/locales';
 

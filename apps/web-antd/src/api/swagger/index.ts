@@ -5,7 +5,7 @@ import { Api } from './Api';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
-export const generatedApi = new Api({
+export const swaggerApi = new Api({
   baseURL: apiURL,
   timeout: 10_000,
   headers: {

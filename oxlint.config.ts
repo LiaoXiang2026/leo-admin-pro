@@ -4,5 +4,5 @@ import { defineConfig } from 'oxlint';
 
 export default defineConfig({
   extends: [oxlintConfig],
-  ignorePatterns: ['**/api/generated/**'],
+  ignorePatterns: ['**/api/generated/**', '**/api/swagger/**'],
 });

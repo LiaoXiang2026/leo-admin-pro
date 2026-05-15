@@ -952,24 +952,4 @@ export class Api<
         ...params,
       }),
   };
-
-  authControllerGetCodes = this.api.authControllerGetCodes;
-  authControllerLogin = this.api.authControllerLogin;
-  authControllerLogout = this.api.authControllerLogout;
-  authControllerRefresh = this.api.authControllerRefresh;
-  userControllerGetUserInfo = this.api.userControllerGetUserInfo;
-  roleControllerList = this.api.roleControllerList;
-  roleControllerCreate = this.api.roleControllerCreate;
-  roleControllerDetail = this.api.roleControllerDetail;
-  roleControllerUpdate = this.api.roleControllerUpdate;
-  roleControllerDelete = this.api.roleControllerDelete;
-  dictControllerListType = this.api.dictControllerListType;
-  dictControllerCreateType = this.api.dictControllerCreateType;
-  dictControllerUpdateType = this.api.dictControllerUpdateType;
-  dictControllerDeleteType = this.api.dictControllerDeleteType;
-  dictControllerListData = this.api.dictControllerListData;
-  dictControllerCreateData = this.api.dictControllerCreateData;
-  dictControllerUpdateData = this.api.dictControllerUpdateData;
-  dictControllerDeleteData = this.api.dictControllerDeleteData;
-  dictControllerBatchDeleteData = this.api.dictControllerBatchDeleteData;
 }

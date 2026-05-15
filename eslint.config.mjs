@@ -2,6 +2,6 @@ import { defineConfig } from '@vben/eslint-config';
 
 export default defineConfig([
   {
-    ignores: ['**/api/generated/**'],
+    ignores: ['**/api/generated/**', '**/api/swagger/**'],
   },
 ]);

@@ -8,7 +8,7 @@ import type {
   DictControllerListTypeParams,
   DictDataEntity,
   DictTypeEntity,
-} from '#/api/generated/data-contracts';
+} from '#/api/swagger/Api';
 
 import { computed, ref } from 'vue';
 
@@ -18,7 +18,7 @@ import { Plus } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { generatedApi } from '#/api/generated';
+import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
 import DictDataModal from './components/DictDataModal.vue';
@@ -50,7 +50,7 @@ const [TypeGrid, typeGridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await generatedApi.dictControllerListType({
+          return await swaggerApi.api.dictControllerListType({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
@@ -94,7 +94,7 @@ function onDeleteType(row: DictTypeEntity) {
     duration: 0,
     key: 'action_process_msg',
   });
-  generatedApi
+  swaggerApi.api
     .dictControllerDeleteType({ id: String(row.id) })
     .then(() => {
       message.success({
@@ -143,7 +143,7 @@ const [DataGrid, dataGridApi] = useVbenVxeGrid({
           if (!selectedTypeCode.value) {
             return { items: [], total: 0 };
           }
-          return await generatedApi.dictControllerListData({
+          return await swaggerApi.api.dictControllerListData({
             page: page.currentPage,
             pageSize: page.pageSize,
             typeCode: selectedTypeCode.value,
@@ -190,7 +190,7 @@ function onDeleteData(row: DictDataEntity) {
     duration: 0,
     key: 'action_process_msg',
   });
-  generatedApi
+  swaggerApi.api
     .dictControllerDeleteData({ id: String(row.id) })
     .then(() => {
       message.success({

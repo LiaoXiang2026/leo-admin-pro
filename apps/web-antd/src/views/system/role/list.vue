@@ -3,10 +3,7 @@ import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type {
-  RoleControllerListParams,
-  RoleEntity,
-} from '#/api/generated/data-contracts';
+import type { RoleEntity } from '#/api/swagger/Api';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
@@ -14,7 +11,7 @@ import { Plus } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { generatedApi } from '#/api/generated';
+import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
 import Form from './modules/form.vue';
@@ -37,11 +34,11 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await generatedApi.roleControllerList({
+          return await swaggerApi.api.roleControllerList({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
-          } satisfies RoleControllerListParams);
+          });
         },
       },
     },
@@ -81,7 +78,7 @@ function onDelete(row: RoleEntity) {
     duration: 0,
     key: 'action_process_msg',
   });
-  generatedApi
+  swaggerApi.api
     .roleControllerDelete({ id: String(row.id) })
     .then(() => {
       message.success({

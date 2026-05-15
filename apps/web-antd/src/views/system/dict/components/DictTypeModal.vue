@@ -3,13 +3,13 @@ import type {
   CreateDictTypeDto,
   DictTypeEntity,
   UpdateDictTypeDto,
-} from '#/api/generated/data-contracts';
+} from '#/api/swagger/Api';
 
 import { useVbenForm } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
 
-import { generatedApi } from '#/api/generated';
+import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
 import { useTypeFormSchema } from '../schema';
@@ -37,7 +37,7 @@ async function onSubmit(values: Record<string, any>) {
         name: values.name,
         remark: values.remark,
       };
-      await generatedApi.dictControllerUpdateType(
+      await swaggerApi.api.dictControllerUpdateType(
         { id: String(props.record.id) },
         payload,
       );
@@ -50,7 +50,7 @@ async function onSubmit(values: Record<string, any>) {
         name: values.name,
         remark: values.remark,
       };
-      await generatedApi.dictControllerCreateType(payload);
+      await swaggerApi.api.dictControllerCreateType(payload);
       message.success(
         $t('ui.actionMessage.createSuccess', [$t('system.dict.type.title')]),
       );

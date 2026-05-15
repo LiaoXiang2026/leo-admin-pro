@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { RoleEntity } from '#/api/generated/data-contracts';
+import type { RoleEntity } from '#/api/swagger/Api';
 
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
-import { generatedApi } from '#/api/generated';
+import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
 import { useFormSchema } from '../schema';
@@ -29,8 +29,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
     drawerApi.lock();
     const payload = { name: values.name, description: values.remark };
     (id.value
-      ? generatedApi.roleControllerUpdate({ id: String(id.value) }, payload)
-      : generatedApi.roleControllerCreate(payload)
+      ? swaggerApi.api.roleControllerUpdate({ id: String(id.value) }, payload)
+      : swaggerApi.api.roleControllerCreate(payload)
     )
       .then(() => {
         emits('success');
