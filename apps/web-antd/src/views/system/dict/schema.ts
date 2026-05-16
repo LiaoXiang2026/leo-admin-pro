@@ -25,6 +25,7 @@ export function useTypeColumns<T = DictTypeEntity>(
   onActionClick: OnActionClickFn<T>,
 ): VxeTableGridColumns {
   return [
+    { type: 'radio', width: 50 },
     { field: 'code', title: $t('system.dict.type.code'), minWidth: 140 },
     { field: 'name', title: $t('system.dict.type.name'), minWidth: 120 },
     { field: 'remark', title: $t('system.dict.type.remark'), minWidth: 150 },

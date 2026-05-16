@@ -21,8 +21,8 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
-import DictDataModal from './components/DictDataModal.vue';
-import DictTypeModal from './components/DictTypeModal.vue';
+import DictDataModal from './modules/dict-data-modal.vue';
+import DictTypeModal from './modules/dict-type-modal.vue';
 import {
   useDataColumns,
   useDataGridFormSchema,
@@ -58,6 +58,9 @@ const [TypeGrid, typeGridApi] = useVbenVxeGrid({
         },
       },
     },
+    radioConfig: {
+      highlight: true,
+    },
     rowConfig: {
       keyField: 'id',
     },
@@ -69,7 +72,15 @@ const [TypeGrid, typeGridApi] = useVbenVxeGrid({
       zoom: true,
     },
   } as VxeTableGridOptions<DictTypeEntity>,
+  gridEvents: {
+    radioChange: onTypeRadioChange,
+  },
 });
+
+function onTypeRadioChange({ row }: { row: DictTypeEntity }) {
+  selectedType.value = row;
+  dataGridApi.query();
+}
 
 function onTypeActionClick(e: OnActionClickParams<DictTypeEntity>) {
   switch (e.code) {
@@ -85,7 +96,7 @@ function onTypeActionClick(e: OnActionClickParams<DictTypeEntity>) {
 }
 
 function onEditType(row: DictTypeEntity) {
-  typeModalApi.setData({ record: row }).open();
+  typeModalApi.setData(row).open();
 }
 
 function onDeleteType(row: DictTypeEntity) {
@@ -102,7 +113,6 @@ function onDeleteType(row: DictTypeEntity) {
         key: 'action_process_msg',
       });
       typeGridApi.query();
-      // 如果删除的是当前选中的类型，清空右侧
       if (selectedType.value?.id === row.id) {
         selectedType.value = null;
         dataGridApi.query();
@@ -115,12 +125,11 @@ function onDeleteType(row: DictTypeEntity) {
 }
 
 function onCreateType() {
-  typeModalApi.setData({ record: null }).open();
+  typeModalApi.setData({}).open();
 }
 
 function onTypeSuccess() {
   typeGridApi.query();
-  typeModalApi.close();
 }
 
 // ===== Data State =====
@@ -179,9 +188,7 @@ function onDataActionClick(e: OnActionClickParams<DictDataEntity>) {
 }
 
 function onEditData(row: DictDataEntity) {
-  dataModalApi
-    .setData({ record: row, typeCode: selectedTypeCode.value })
-    .open();
+  dataModalApi.setData({ record: row, typeCode: selectedTypeCode.value }).open();
 }
 
 function onDeleteData(row: DictDataEntity) {
@@ -209,18 +216,10 @@ function onCreateData() {
     message.warning('请先选择一个字典类型');
     return;
   }
-  dataModalApi
-    .setData({ record: null, typeCode: selectedTypeCode.value })
-    .open();
+  dataModalApi.setData({ typeCode: selectedTypeCode.value }).open();
 }
 
 function onDataSuccess() {
-  dataGridApi.query();
-  dataModalApi.close();
-}
-
-function onTypeRowClick({ row }: { row: DictTypeEntity }) {
-  selectedType.value = row;
   dataGridApi.query();
 }
 </script>
@@ -229,11 +228,10 @@ function onTypeRowClick({ row }: { row: DictTypeEntity }) {
   <Page auto-content-height :title="$t('system.dict.title')">
     <div class="flex h-full gap-4">
       <!-- Left: Type List -->
-      <div class="w-1/3 flex flex-col">
+      <div class="w-2/5 flex flex-col">
         <TypeModal @success="onTypeSuccess" />
         <TypeGrid
           :table-title="$t('system.dict.type.title')"
-          @cell-click="onTypeRowClick"
         >
           <template #toolbar-tools>
             <Button type="primary" @click="onCreateType">
@@ -245,7 +243,7 @@ function onTypeRowClick({ row }: { row: DictTypeEntity }) {
       </div>
 
       <!-- Right: Data List -->
-      <div class="w-2/3 flex flex-col">
+      <div class="w-3/5 flex flex-col">
         <DataModal @success="onDataSuccess" />
         <DataGrid
           :table-title="
