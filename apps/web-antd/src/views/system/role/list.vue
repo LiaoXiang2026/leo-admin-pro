@@ -14,11 +14,11 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
-import Form from './modules/form.vue';
+import RoleForm from './components/RoleForm.vue';
 import { useColumns, useGridFormSchema } from './schema';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
-  connectedComponent: Form,
+  connectedComponent: RoleForm,
   destroyOnClose: true,
 });
 
