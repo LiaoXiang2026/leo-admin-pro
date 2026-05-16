@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'mdi:account-outline',
           title: $t('system.user.title'),
         },
-        component: () => import('#/views/system/user/list.vue'),
+        component: () => import('#/views/system/user/index.vue'),
       },
       {
         path: '/system/role',
@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'mdi:account-group',
           title: $t('system.role.title'),
         },
-        component: () => import('#/views/system/role/list.vue'),
+        component: () => import('#/views/system/role/index.vue'),
       },
       {
         path: '/system/dict',
@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'lucide:book-type',
           title: $t('system.dict.title'),
         },
-        component: () => import('#/views/system/dict/list.vue'),
+        component: () => import('#/views/system/dict/index.vue'),
       },
     ],
   },
