@@ -71,6 +71,7 @@ const getDrawerTitle = computed(() => {
     : $t('common.create', $t('system.dict.type.title'));
 });
 </script>
+
 <template>
   <Drawer :title="getDrawerTitle">
     <Form />

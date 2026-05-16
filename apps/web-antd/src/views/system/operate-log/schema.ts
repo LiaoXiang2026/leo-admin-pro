@@ -94,10 +94,7 @@ export function useColumns<T = OperateLogEntity>(
           nameField: 'module',
           nameTitle: $t('system.operateLog.name'),
           onClick: onActionClick,
-          options: [
-            { code: 'detail', text: $t('common.detail') },
-            'delete',
-          ],
+          options: [{ code: 'detail', text: $t('common.detail') }, 'delete'],
         },
         name: 'CellOperation',
       },

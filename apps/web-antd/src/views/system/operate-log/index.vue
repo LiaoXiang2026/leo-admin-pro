@@ -144,7 +144,9 @@ function onRefresh() {
         </div>
         <div v-if="detailData.params" class="flex gap-2">
           <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.params') }}:</span>
-          <pre class="m-0 max-h-60 overflow-auto rounded bg-gray-100 p-2 text-xs">{{ detailData.params }}</pre>
+          <pre
+            class="m-0 max-h-60 overflow-auto rounded bg-gray-100 p-2 text-xs"
+            >{{ detailData.params }}</pre>
         </div>
       </div>
     </FormDrawer>
