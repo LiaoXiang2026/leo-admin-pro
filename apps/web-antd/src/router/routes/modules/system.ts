@@ -31,6 +31,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/role/index.vue'),
       },
       {
+        path: '/system/operate-log',
+        name: 'SystemOperateLog',
+        meta: {
+          icon: 'mdi:file-document-outline',
+          title: $t('system.operateLog.title'),
+        },
+        component: () => import('#/views/system/operate-log/index.vue'),
+      },
+      {
         path: '/system/dict',
         name: 'SystemDict',
         meta: {

@@ -67,6 +67,26 @@
     "badge": "徽章内容",
     "badgeVariants": "徽标样式"
   },
+  "operateLog": {
+    "title": "操作日志",
+    "list": "操作日志列表",
+    "name": "操作日志",
+    "id": "日志ID",
+    "operator": "操作人",
+    "module": "操作模块",
+    "action": "操作类型",
+    "description": "操作描述",
+    "method": "请求方式",
+    "url": "请求URL",
+    "params": "请求参数",
+    "duration": "耗时",
+    "ip": "IP地址",
+    "status": "状态",
+    "operateTime": "操作时间",
+    "operation": "操作",
+    "detail": "日志详情",
+    "delete": "删除"
+  },
   "dict": {
     "title": "字典管理",
     "type": {

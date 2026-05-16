@@ -243,6 +243,43 @@ export interface BatchDeleteDictDataDto {
   ids: number[];
 }
 
+export interface OperateLogEntity {
+  /** 日志ID */
+  id: number;
+  /** 操作人 */
+  operator: string;
+  /** 操作模块 */
+  module: string;
+  /** 操作类型 */
+  action: string;
+  /** 操作描述 */
+  description?: string;
+  /** 请求方式 */
+  method: string;
+  /** 请求URL */
+  url: string;
+  /** 请求参数 */
+  params?: string;
+  /** 耗时(ms) */
+  duration?: number;
+  /** IP地址 */
+  ip: string;
+  /** 操作时间 */
+  createdAt: string;
+}
+
+export interface OperateLogPageResultDto {
+  /** 操作日志列表 */
+  items: OperateLogEntity[];
+  /** 总数 */
+  total: number;
+}
+
+export interface BatchDeleteOperateLogDto {
+  /** 要删除的日志ID数组 */
+  ids: number[];
+}
+
 export type AuthControllerGetCodesData = CodesResponse;
 
 export type AuthControllerLoginData = LoginResponse;
@@ -364,6 +401,44 @@ export interface DictControllerDeleteDataParams {
 export type DictControllerDeleteDataData = boolean;
 
 export type DictControllerBatchDeleteDataData = boolean;
+
+export interface OperateLogControllerListParams {
+  /**
+   * 页码
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * 每页条数
+   * @min 1
+   * @max 100
+   * @default 10
+   */
+  pageSize?: number;
+  /** 操作人（模糊匹配） */
+  operator?: string;
+  /** 操作模块（模糊匹配） */
+  module?: string;
+  /** 操作类型 */
+  action?: string;
+}
+
+export type OperateLogControllerListData = OperateLogPageResultDto;
+
+export interface OperateLogControllerDetailParams {
+  id: string;
+}
+
+export type OperateLogControllerDetailData = OperateLogEntity;
+
+export interface OperateLogControllerDeleteParams {
+  id: string;
+}
+
+export type OperateLogControllerDeleteData = boolean;
+
+export type OperateLogControllerBatchDeleteData = boolean;
 
 import type {
   AxiosInstance,
@@ -944,6 +1019,93 @@ export class Api<
     ) =>
       this.request<DictControllerBatchDeleteDataData, any>({
         path: `/api/dict/data/batchDelete`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags 操作日志
+     * @name OperateLogControllerList
+     * @summary 分页查询操作日志
+     * @request GET:/api/operate-log
+     * @secure
+     */
+    operateLogControllerList: (
+      query: OperateLogControllerListParams,
+      params: RequestParams = {},
+    ) =>
+      this.request<OperateLogControllerListData, any>({
+        path: `/api/operate-log`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags 操作日志
+     * @name OperateLogControllerDetail
+     * @summary 获取操作日志详情
+     * @request GET:/api/operate-log/{id}
+     * @secure
+     */
+    operateLogControllerDetail: (
+      { id }: OperateLogControllerDetailParams,
+      params: RequestParams = {},
+    ) =>
+      this.request<OperateLogControllerDetailData, any>({
+        path: `/api/operate-log/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags 操作日志
+     * @name OperateLogControllerDelete
+     * @summary 删除单条操作日志
+     * @request DELETE:/api/operate-log/{id}
+     * @secure
+     */
+    operateLogControllerDelete: (
+      { id }: OperateLogControllerDeleteParams,
+      params: RequestParams = {},
+    ) =>
+      this.request<OperateLogControllerDeleteData, any>({
+        path: `/api/operate-log/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags 操作日志
+     * @name OperateLogControllerBatchDelete
+     * @summary 批量删除操作日志
+     * @request POST:/api/operate-log/batchDelete
+     * @secure
+     */
+    operateLogControllerBatchDelete: (
+      data: BatchDeleteOperateLogDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<OperateLogControllerBatchDeleteData, any>({
+        path: `/api/operate-log/batchDelete`,
         method: 'POST',
         body: data,
         secure: true,
