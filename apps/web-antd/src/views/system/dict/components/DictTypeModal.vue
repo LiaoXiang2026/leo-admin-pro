@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DictDataEntity } from '#/api/swagger/Api';
+import type { DictTypeEntity } from '#/api/swagger/Api';
 
 import { computed, ref } from 'vue';
 
@@ -9,17 +9,16 @@ import { useVbenForm } from '#/adapter/form';
 import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
-import { useDataFormSchema } from '../schema';
+import { useTypeFormSchema } from '../schema';
 
 const emits = defineEmits<{
   success: [];
 }>();
 
-const formData = ref<DictDataEntity>();
-const typeCode = ref<string>();
+const formData = ref<DictTypeEntity>();
 
 const [Form, formApi] = useVbenForm({
-  schema: useDataFormSchema(),
+  schema: useTypeFormSchema(),
   showDefaultActions: false,
 });
 
@@ -29,24 +28,18 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    const payload = {
-      label: values.label,
-      value: values.value,
-      sort: values.sort,
-      status: values.status,
-      remark: values.remark,
-    };
     try {
       // eslint-disable-next-line unicorn/prefer-ternary
       if (formData.value?.id) {
-        await swaggerApi.api.dictControllerUpdateData(
+        await swaggerApi.api.dictControllerUpdateType(
           { id: String(formData.value.id) },
-          payload,
+          { code: values.code, name: values.name, remark: values.remark },
         );
       } else {
-        await swaggerApi.api.dictControllerCreateData({
-          typeCode: typeCode.value || '',
-          ...payload,
+        await swaggerApi.api.dictControllerCreateType({
+          code: values.code,
+          name: values.name,
+          remark: values.remark,
         });
       }
       emits('success');
@@ -58,20 +51,14 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
   async onOpenChange(isOpen) {
     if (isOpen) {
-      const data = drawerApi.getData<{
-        record?: DictDataEntity;
-        typeCode?: string;
-      }>();
+      const data = drawerApi.getData<DictTypeEntity>();
       formApi.resetForm();
-      formData.value = data?.record?.id ? data.record : undefined;
-      typeCode.value = data?.typeCode;
-      if (data?.record?.id) {
+      formData.value = data?.id ? data : undefined;
+      if (data?.id) {
         await formApi.setValues({
-          label: data.record.label,
-          value: data.record.value,
-          sort: data.record.sort,
-          status: data.record.status,
-          remark: data.record.remark,
+          code: data.code,
+          name: data.name,
+          remark: data.remark,
         });
       }
     }
@@ -80,8 +67,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
 const getDrawerTitle = computed(() => {
   return formData.value?.id
-    ? $t('common.edit', $t('system.dict.data.title'))
-    : $t('common.create', $t('system.dict.data.title'));
+    ? $t('common.edit', $t('system.dict.type.title'))
+    : $t('common.create', $t('system.dict.type.title'));
 });
 </script>
 <template>

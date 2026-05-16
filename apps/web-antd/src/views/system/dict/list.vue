@@ -21,8 +21,8 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
-import DictDataModal from './modules/dict-data-modal.vue';
-import DictTypeModal from './modules/dict-type-modal.vue';
+import DictDataModal from './components/DictDataModal.vue';
+import DictTypeModal from './components/DictTypeModal.vue';
 import {
   useDataColumns,
   useDataGridFormSchema,
@@ -188,7 +188,9 @@ function onDataActionClick(e: OnActionClickParams<DictDataEntity>) {
 }
 
 function onEditData(row: DictDataEntity) {
-  dataModalApi.setData({ record: row, typeCode: selectedTypeCode.value }).open();
+  dataModalApi
+    .setData({ record: row, typeCode: selectedTypeCode.value })
+    .open();
 }
 
 function onDeleteData(row: DictDataEntity) {
@@ -230,9 +232,7 @@ function onDataSuccess() {
       <!-- Left: Type List -->
       <div class="w-2/5 flex flex-col">
         <TypeModal @success="onTypeSuccess" />
-        <TypeGrid
-          :table-title="$t('system.dict.type.title')"
-        >
+        <TypeGrid :table-title="$t('system.dict.type.title')">
           <template #toolbar-tools>
             <Button type="primary" @click="onCreateType">
               <Plus class="size-5" />

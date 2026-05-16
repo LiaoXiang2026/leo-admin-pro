@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DictTypeEntity } from '#/api/swagger/Api';
+import type { DictDataEntity } from '#/api/swagger/Api';
 
 import { computed, ref } from 'vue';
 
@@ -9,16 +9,17 @@ import { useVbenForm } from '#/adapter/form';
 import { swaggerApi } from '#/api/swagger';
 import { $t } from '#/locales';
 
-import { useTypeFormSchema } from '../schema';
+import { useDataFormSchema } from '../schema';
 
 const emits = defineEmits<{
   success: [];
 }>();
 
-const formData = ref<DictTypeEntity>();
+const formData = ref<DictDataEntity>();
+const typeCode = ref<string>();
 
 const [Form, formApi] = useVbenForm({
-  schema: useTypeFormSchema(),
+  schema: useDataFormSchema(),
   showDefaultActions: false,
 });
 
@@ -28,18 +29,24 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
+    const payload = {
+      label: values.label,
+      value: values.value,
+      sort: values.sort,
+      status: values.status,
+      remark: values.remark,
+    };
     try {
       // eslint-disable-next-line unicorn/prefer-ternary
       if (formData.value?.id) {
-        await swaggerApi.api.dictControllerUpdateType(
+        await swaggerApi.api.dictControllerUpdateData(
           { id: String(formData.value.id) },
-          { code: values.code, name: values.name, remark: values.remark },
+          payload,
         );
       } else {
-        await swaggerApi.api.dictControllerCreateType({
-          code: values.code,
-          name: values.name,
-          remark: values.remark,
+        await swaggerApi.api.dictControllerCreateData({
+          typeCode: typeCode.value || '',
+          ...payload,
         });
       }
       emits('success');
@@ -51,14 +58,20 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
   async onOpenChange(isOpen) {
     if (isOpen) {
-      const data = drawerApi.getData<DictTypeEntity>();
+      const data = drawerApi.getData<{
+        record?: DictDataEntity;
+        typeCode?: string;
+      }>();
       formApi.resetForm();
-      formData.value = data?.id ? data : undefined;
-      if (data?.id) {
+      formData.value = data?.record?.id ? data.record : undefined;
+      typeCode.value = data?.typeCode;
+      if (data?.record?.id) {
         await formApi.setValues({
-          code: data.code,
-          name: data.name,
-          remark: data.remark,
+          label: data.record.label,
+          value: data.record.value,
+          sort: data.record.sort,
+          status: data.record.status,
+          remark: data.record.remark,
         });
       }
     }
@@ -67,8 +80,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
 const getDrawerTitle = computed(() => {
   return formData.value?.id
-    ? $t('common.edit', $t('system.dict.type.title'))
-    : $t('common.create', $t('system.dict.type.title'));
+    ? $t('common.edit', $t('system.dict.data.title'))
+    : $t('common.create', $t('system.dict.data.title'));
 });
 </script>
 <template>
