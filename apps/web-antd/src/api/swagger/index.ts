@@ -2,15 +2,17 @@ import { useAppConfig } from '@vben/hooks';
 import { useAccessStore } from '@vben/stores';
 
 import { Api } from './Api';
+import { createSwaggerApiProxy } from './proxy';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
-export const swaggerApi = new Api({
+const rawSwaggerApi = new Api({
   baseURL: apiURL,
   timeout: 10_000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   },
+  responseType: 'json',
   securityWorker: async () => {
     const accessStore = useAccessStore();
     return accessStore.accessToken
@@ -18,3 +20,9 @@ export const swaggerApi = new Api({
       : {};
   },
 });
+
+export const swaggerApi = {
+  ...rawSwaggerApi,
+  api: createSwaggerApiProxy(rawSwaggerApi.api),
+  raw: rawSwaggerApi,
+};
