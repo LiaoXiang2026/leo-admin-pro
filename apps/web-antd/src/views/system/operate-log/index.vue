@@ -84,73 +84,50 @@ function formatTime(time: string | undefined) {
     <FormDrawer :title="$t('system.operateLog.detail')">
       <div v-if="detailData" class="space-y-3">
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.id') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.id') }}:</span>
           <span>{{ detailData.id }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.operator') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.operator') }}:</span>
           <span>{{ detailData.operator }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.module') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.module') }}:</span>
           <span>{{ detailData.module }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.action') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.action') }}:</span>
           <span>{{ detailData.action }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.description') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.description') }}:</span>
           <span>{{ detailData.description }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.method') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.method') }}:</span>
           <span>{{ detailData.method }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.url') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.url') }}:</span>
           <span>{{ detailData.url }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.ip') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.ip') }}:</span>
           <span>{{ detailData.ip }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.duration') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.duration') }}:</span>
           <span>{{ formatDuration(detailData.duration) }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.operateTime') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.operateTime') }}:</span>
           <span>{{ formatTime(detailData.createdAt) }}</span>
         </div>
         <div v-if="detailData.params" class="flex gap-2">
-          <span class="text-foreground/60 min-w-20"
-            >{{ $t('system.operateLog.params') }}:</span
-          >
+          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.params') }}:</span>
           <pre
             class="m-0 max-h-60 overflow-auto rounded bg-gray-100 p-2 text-xs"
-            >{{ detailData.params }}</pre
-          >
+            >{{ detailData.params }}</pre>
         </div>
       </div>
     </FormDrawer>
