@@ -1,6 +1,8 @@
 import { useAppConfig } from '@vben/hooks';
 import { useAccessStore } from '@vben/stores';
 
+import { message } from 'ant-design-vue';
+
 import { Api } from './Api';
 import { createSwaggerApiProxy } from './proxy';
 
@@ -20,6 +22,16 @@ const rawSwaggerApi = new Api({
       : {};
   },
 });
+
+rawSwaggerApi.instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const errorMessage =
+      error.response?.data?.message || error.message || '请求失败';
+    message.error(errorMessage);
+    return Promise.reject(error);
+  },
+);
 
 export const swaggerApi = {
   ...rawSwaggerApi,

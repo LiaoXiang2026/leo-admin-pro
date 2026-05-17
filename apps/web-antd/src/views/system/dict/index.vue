@@ -100,27 +100,17 @@ function onEditType(row: DictTypeEntity) {
 }
 
 function onDeleteType(row: DictTypeEntity) {
-  const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
-    duration: 0,
-    key: 'action_process_msg',
-  });
-  swaggerApi.api
-    .dictControllerDeleteType({ id: String(row.id) })
-    .then(() => {
-      message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
-        key: 'action_process_msg',
-      });
-      typeGridApi.query();
-      if (selectedType.value?.id === row.id) {
-        selectedType.value = null;
-        dataGridApi.query();
-      }
-    })
-    .catch(() => {
-      hideLoading();
+  swaggerApi.api.dictControllerDeleteType({ id: String(row.id) }).then(() => {
+    message.success({
+      content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+      key: 'action_process_msg',
     });
+    typeGridApi.query();
+    if (selectedType.value?.id === row.id) {
+      selectedType.value = null;
+      dataGridApi.query();
+    }
+  });
 }
 
 function onCreateType() {
@@ -193,23 +183,13 @@ function onEditData(row: DictDataEntity) {
 }
 
 function onDeleteData(row: DictDataEntity) {
-  const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.label]),
-    duration: 0,
-    key: 'action_process_msg',
-  });
-  swaggerApi.api
-    .dictControllerDeleteData({ id: String(row.id) })
-    .then(() => {
-      message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.label]),
-        key: 'action_process_msg',
-      });
-      dataGridApi.query();
-    })
-    .catch(() => {
-      hideLoading();
+  swaggerApi.api.dictControllerDeleteData({ id: String(row.id) }).then(() => {
+    message.success({
+      content: $t('ui.actionMessage.deleteSuccess', [row.label]),
+      key: 'action_process_msg',
     });
+    dataGridApi.query();
+  });
 }
 
 function onCreateData() {
