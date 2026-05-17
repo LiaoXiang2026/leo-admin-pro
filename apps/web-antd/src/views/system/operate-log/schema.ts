@@ -2,6 +2,8 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridColumns } from '#/adapter/vxe-table';
 import type { OperateLogEntity } from '#/api/swagger/Api';
 
+import dayjs from 'dayjs';
+
 import { $t } from '#/locales';
 
 export function useGridFormSchema(): VbenFormSchema[] {
@@ -73,19 +75,18 @@ export function useColumns<T = OperateLogEntity>(
       title: $t('system.operateLog.url'),
     },
     {
-      field: 'ip',
-      title: $t('system.operateLog.ip'),
-      width: 140,
-    },
-    {
+      cellRender: { name: 'CellDuration' },
       field: 'duration',
       title: $t('system.operateLog.duration'),
-      width: 80,
+      width: 100,
     },
     {
       field: 'createdAt',
       title: $t('system.operateLog.operateTime'),
       width: 180,
+      formatter: ({ cellValue }) => {
+        return cellValue ? dayjs(cellValue).format('YYYY-MM-DD HH:mm:ss') : '';
+      },
     },
     {
       align: 'center',
@@ -94,9 +95,9 @@ export function useColumns<T = OperateLogEntity>(
           nameField: 'module',
           nameTitle: $t('system.operateLog.name'),
           onClick: onActionClick,
-          options: [{ code: 'detail', text: $t('common.detail') }, 'delete'],
         },
         name: 'CellOperation',
+        options: [{ code: 'detail', text: $t('common.detail') }, 'delete'],
       },
       field: 'operation',
       fixed: 'right',

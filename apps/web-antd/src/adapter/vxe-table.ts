@@ -91,6 +91,23 @@ setupVbenVxeTable({
       },
     });
 
+    // 单元格渲染：耗时（带颜色）
+    vxeUI.renderer.add('CellDuration', {
+      renderTableDefault(_renderOpts, { column, row }) {
+        const ms = Number(get(row, column.field));
+        let color: string;
+        if (ms <= 1000) {
+          color = 'green';
+        } else if (ms <= 3000) {
+          color = 'orange';
+        } else {
+          color = 'red';
+        }
+        const text = ms > 1000 ? `${(ms / 1000).toFixed(2)}s` : `${ms}ms`;
+        return h(Tag, { color }, { default: () => text });
+      },
+    });
+
     vxeUI.renderer.add('CellSwitch', {
       renderTableDefault({ attrs, props }, { column, row }) {
         const loadingKey = `__loading_${column.field}`;

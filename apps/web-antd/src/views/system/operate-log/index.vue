@@ -9,7 +9,7 @@ import { ref } from 'vue';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { swaggerApi } from '#/api/swagger';
@@ -21,7 +21,7 @@ const [FormDrawer, formDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
-const [Grid, gridApi] = useVbenVxeGrid({
+const [Grid] = useVbenVxeGrid({
   formOptions: {
     schema: useGridFormSchema(),
     submitOnChange: true,
@@ -57,15 +57,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
 const detailData = ref<OperateLogEntity>();
 
 function onActionClick(e: OnActionClickParams<OperateLogEntity>) {
-  switch (e.code) {
-    case 'delete': {
-      onDelete(e.row);
-      break;
-    }
-    case 'detail': {
-      onDetail(e.row);
-      break;
-    }
+  if (e.code === 'detail') {
+    onDetail(e.row);
   }
 }
 
@@ -74,28 +67,16 @@ function onDetail(row: OperateLogEntity) {
   formDrawerApi.setData(row).open();
 }
 
-function onDelete(row: OperateLogEntity) {
-  const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [String(row.id)]),
-    duration: 0,
-    key: 'action_process_msg',
-  });
-  swaggerApi.api
-    .operateLogControllerDelete({ id: String(row.id) })
-    .then(() => {
-      message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [String(row.id)]),
-        key: 'action_process_msg',
-      });
-      onRefresh();
-    })
-    .catch(() => {
-      hideLoading();
-    });
+function formatDuration(ms: number | undefined) {
+  if (ms === undefined) return '';
+  if (ms > 1000) {
+    return `${(ms / 1000).toFixed(2)}s`;
+  }
+  return `${ms}ms`;
 }
 
-function onRefresh() {
-  gridApi.query();
+function formatTime(time: string | undefined) {
+  return time ? dayjs(time).format('YYYY-MM-DD HH:mm:ss') : '';
 }
 </script>
 <template>
@@ -103,50 +84,73 @@ function onRefresh() {
     <FormDrawer :title="$t('system.operateLog.detail')">
       <div v-if="detailData" class="space-y-3">
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.id') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.id') }}:</span
+          >
           <span>{{ detailData.id }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.operator') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.operator') }}:</span
+          >
           <span>{{ detailData.operator }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.module') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.module') }}:</span
+          >
           <span>{{ detailData.module }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.action') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.action') }}:</span
+          >
           <span>{{ detailData.action }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.description') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.description') }}:</span
+          >
           <span>{{ detailData.description }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.method') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.method') }}:</span
+          >
           <span>{{ detailData.method }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.url') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.url') }}:</span
+          >
           <span>{{ detailData.url }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.ip') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.ip') }}:</span
+          >
           <span>{{ detailData.ip }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.duration') }}:</span>
-          <span>{{ detailData.duration }}ms</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.duration') }}:</span
+          >
+          <span>{{ formatDuration(detailData.duration) }}</span>
         </div>
         <div class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.operateTime') }}:</span>
-          <span>{{ detailData.createdAt }}</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.operateTime') }}:</span
+          >
+          <span>{{ formatTime(detailData.createdAt) }}</span>
         </div>
         <div v-if="detailData.params" class="flex gap-2">
-          <span class="text-foreground/60 min-w-20">{{ $t('system.operateLog.params') }}:</span>
+          <span class="text-foreground/60 min-w-20"
+            >{{ $t('system.operateLog.params') }}:</span
+          >
           <pre
             class="m-0 max-h-60 overflow-auto rounded bg-gray-100 p-2 text-xs"
-            >{{ detailData.params }}</pre>
+            >{{ detailData.params }}</pre
+          >
         </div>
       </div>
     </FormDrawer>
