@@ -21,7 +21,7 @@
     "dev": "pnpm vite --mode development",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
-    "generate:api": "swagger-typescript-api generate -p http://localhost:3200/api/docs-json -o ./src/api/swagger --http-client axios --extract-request-params --extract-request-body --extract-response-body --extract-enums"
+    "generate:api": "swagger-typescript-api generate -p https://leo-admin-backend.zeabur.app/api/docs-json -o ./src/api/swagger --http-client axios --extract-request-params --extract-request-body --extract-response-body --extract-enums"
   },
   "imports": {
     "#/*": "./src/*"

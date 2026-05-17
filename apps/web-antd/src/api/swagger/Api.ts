@@ -254,7 +254,7 @@ export interface OperateLogEntity {
   action: string;
   /** 操作描述 */
   description?: string;
-  /** 请求方式 */
+  /** 请求方法 */
   method: string;
   /** 请求URL */
   url: string;
@@ -264,12 +264,15 @@ export interface OperateLogEntity {
   duration?: number;
   /** IP地址 */
   ip: string;
-  /** 操作时间 */
+  /**
+   * 创建时间
+   * @format date-time
+   */
   createdAt: string;
 }
 
 export interface OperateLogPageResultDto {
-  /** 操作日志列表 */
+  /** 日志列表 */
   items: OperateLogEntity[];
   /** 总数 */
   total: number;
@@ -420,7 +423,7 @@ export interface OperateLogControllerListParams {
   operator?: string;
   /** 操作模块（模糊匹配） */
   module?: string;
-  /** 操作类型 */
+  /** 操作类型（精确匹配） */
   action?: string;
 }
 
@@ -446,15 +449,13 @@ import type {
   AxiosResponse,
   HeadersDefaults,
   ResponseType,
-} from 'axios';
-import axios from 'axios';
+} from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
-export interface FullRequestParams extends Omit<
-  AxiosRequestConfig,
-  'data' | 'params' | 'url' | 'responseType'
-> {
+export interface FullRequestParams
+  extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -471,13 +472,11 @@ export interface FullRequestParams extends Omit<
 
 export type RequestParams = Omit<
   FullRequestParams,
-  'body' | 'method' | 'query' | 'path'
+  "body" | "method" | "query" | "path"
 >;
 
-export interface ApiConfig<SecurityDataType = unknown> extends Omit<
-  AxiosRequestConfig,
-  'data' | 'cancelToken'
-> {
+export interface ApiConfig<SecurityDataType = unknown>
+  extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
   securityWorker?: (
     securityData: SecurityDataType | null,
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
@@ -486,17 +485,17 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<
 }
 
 export enum ContentType {
-  Json = 'application/json',
-  JsonApi = 'application/vnd.api+json',
-  FormData = 'multipart/form-data',
-  UrlEncoded = 'application/x-www-form-urlencoded',
-  Text = 'text/plain',
+  Json = "application/json",
+  JsonApi = "application/vnd.api+json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
   public instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
-  private securityWorker?: ApiConfig<SecurityDataType>['securityWorker'];
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private secure?: boolean;
   private format?: ResponseType;
 
@@ -508,7 +507,7 @@ export class HttpClient<SecurityDataType = unknown> {
   }: ApiConfig<SecurityDataType> = {}) {
     this.instance = axios.create({
       ...axiosConfig,
-      baseURL: axiosConfig.baseURL || '',
+      baseURL: axiosConfig.baseURL || "",
     });
     this.secure = secure;
     this.format = format;
@@ -542,7 +541,7 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   protected stringifyFormItem(formItem: unknown) {
-    if (typeof formItem === 'object' && formItem !== null) {
+    if (typeof formItem === "object" && formItem !== null) {
       return JSON.stringify(formItem);
     } else {
       return `${formItem}`;
@@ -580,7 +579,7 @@ export class HttpClient<SecurityDataType = unknown> {
     ...params
   }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams =
-      ((typeof secure === 'boolean' ? secure : this.secure) &&
+      ((typeof secure === "boolean" ? secure : this.secure) &&
         this.securityWorker &&
         (await this.securityWorker(this.securityData))) ||
       {};
@@ -591,7 +590,7 @@ export class HttpClient<SecurityDataType = unknown> {
       type === ContentType.FormData &&
       body &&
       body !== null &&
-      typeof body === 'object'
+      typeof body === "object"
     ) {
       body = this.createFormData(body as Record<string, unknown>);
     }
@@ -600,7 +599,7 @@ export class HttpClient<SecurityDataType = unknown> {
       type === ContentType.Text &&
       body &&
       body !== null &&
-      typeof body !== 'string'
+      typeof body !== "string"
     ) {
       body = JSON.stringify(body);
     }
@@ -609,7 +608,7 @@ export class HttpClient<SecurityDataType = unknown> {
       ...requestParams,
       headers: {
         ...(requestParams.headers || {}),
-        ...(type ? { 'Content-Type': type } : {}),
+        ...(type ? { "Content-Type": type } : {}),
       },
       params: query,
       responseType: responseFormat,
@@ -642,9 +641,9 @@ export class Api<
     authControllerGetCodes: (params: RequestParams = {}) =>
       this.request<AuthControllerGetCodesData, any>({
         path: `/api/auth/codes`,
-        method: 'GET',
+        method: "GET",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -659,10 +658,10 @@ export class Api<
     authControllerLogin: (data: LoginDto, params: RequestParams = {}) =>
       this.request<AuthControllerLoginData, any>({
         path: `/api/auth/login`,
-        method: 'POST',
+        method: "POST",
         body: data,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -677,8 +676,8 @@ export class Api<
     authControllerLogout: (params: RequestParams = {}) =>
       this.request<AuthControllerLogoutData, any>({
         path: `/api/auth/logout`,
-        method: 'POST',
-        format: 'json',
+        method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -693,8 +692,8 @@ export class Api<
     authControllerRefresh: (params: RequestParams = {}) =>
       this.request<AuthControllerRefreshData, any>({
         path: `/api/auth/refresh`,
-        method: 'POST',
-        format: 'json',
+        method: "POST",
+        format: "json",
         ...params,
       }),
 
@@ -710,9 +709,9 @@ export class Api<
     userControllerGetUserInfo: (params: RequestParams = {}) =>
       this.request<UserControllerGetUserInfoData, any>({
         path: `/api/user/info`,
-        method: 'GET',
+        method: "GET",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -731,10 +730,10 @@ export class Api<
     ) =>
       this.request<RoleControllerListData, any>({
         path: `/api/role`,
-        method: 'GET',
+        method: "GET",
         query: query,
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -750,11 +749,11 @@ export class Api<
     roleControllerCreate: (data: CreateRoleDto, params: RequestParams = {}) =>
       this.request<RoleControllerCreateData, any>({
         path: `/api/role`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -773,9 +772,9 @@ export class Api<
     ) =>
       this.request<RoleControllerDetailData, any>({
         path: `/api/role/${id}`,
-        method: 'GET',
+        method: "GET",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -795,11 +794,11 @@ export class Api<
     ) =>
       this.request<RoleControllerUpdateData, any>({
         path: `/api/role/${id}`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -818,9 +817,9 @@ export class Api<
     ) =>
       this.request<RoleControllerDeleteData, any>({
         path: `/api/role/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -839,10 +838,10 @@ export class Api<
     ) =>
       this.request<DictControllerListTypeData, any>({
         path: `/api/dict/type/list`,
-        method: 'GET',
+        method: "GET",
         query: query,
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -861,11 +860,11 @@ export class Api<
     ) =>
       this.request<DictControllerCreateTypeData, any>({
         path: `/api/dict/type`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -885,11 +884,11 @@ export class Api<
     ) =>
       this.request<DictControllerUpdateTypeData, any>({
         path: `/api/dict/type/${id}`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -908,9 +907,9 @@ export class Api<
     ) =>
       this.request<DictControllerDeleteTypeData, any>({
         path: `/api/dict/type/delete/${id}`,
-        method: 'POST',
+        method: "POST",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -929,10 +928,10 @@ export class Api<
     ) =>
       this.request<DictControllerListDataData, any>({
         path: `/api/dict/data/list`,
-        method: 'GET',
+        method: "GET",
         query: query,
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -951,11 +950,11 @@ export class Api<
     ) =>
       this.request<DictControllerCreateDataData, any>({
         path: `/api/dict/data`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -975,11 +974,11 @@ export class Api<
     ) =>
       this.request<DictControllerUpdateDataData, any>({
         path: `/api/dict/data/${id}`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -998,9 +997,9 @@ export class Api<
     ) =>
       this.request<DictControllerDeleteDataData, any>({
         path: `/api/dict/data/delete/${id}`,
-        method: 'POST',
+        method: "POST",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -1019,11 +1018,11 @@ export class Api<
     ) =>
       this.request<DictControllerBatchDeleteDataData, any>({
         path: `/api/dict/data/batchDelete`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -1042,10 +1041,10 @@ export class Api<
     ) =>
       this.request<OperateLogControllerListData, any>({
         path: `/api/operate-log`,
-        method: 'GET',
+        method: "GET",
         query: query,
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -1064,9 +1063,9 @@ export class Api<
     ) =>
       this.request<OperateLogControllerDetailData, any>({
         path: `/api/operate-log/${id}`,
-        method: 'GET',
+        method: "GET",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -1075,7 +1074,7 @@ export class Api<
      *
      * @tags 操作日志
      * @name OperateLogControllerDelete
-     * @summary 删除单条操作日志
+     * @summary 删除操作日志
      * @request DELETE:/api/operate-log/{id}
      * @secure
      */
@@ -1085,9 +1084,9 @@ export class Api<
     ) =>
       this.request<OperateLogControllerDeleteData, any>({
         path: `/api/operate-log/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
         secure: true,
-        format: 'json',
+        format: "json",
         ...params,
       }),
 
@@ -1106,11 +1105,11 @@ export class Api<
     ) =>
       this.request<OperateLogControllerBatchDeleteData, any>({
         path: `/api/operate-log/batchDelete`,
-        method: 'POST',
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: 'json',
+        format: "json",
         ...params,
       }),
   };
