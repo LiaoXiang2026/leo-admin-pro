@@ -24,7 +24,6 @@ const [FormDrawer, formDrawerApi] = useVbenDrawer({
 const [Grid] = useVbenVxeGrid({
   formOptions: {
     schema: useGridFormSchema(),
-    submitOnChange: true,
   },
   gridOptions: {
     columns: useColumns(onActionClick),

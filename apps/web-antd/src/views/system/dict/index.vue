@@ -118,9 +118,8 @@ function onDeleteType(row: DictTypeEntity) {
         dataGridApi.query();
       }
     })
-    .catch((error: any) => {
+    .catch(() => {
       hideLoading();
-      message.error(error.message || $t('common.error'));
     });
 }
 
