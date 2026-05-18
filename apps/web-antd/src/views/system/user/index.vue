@@ -47,7 +47,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     },
     toolbarConfig: {
       custom: true,
-      export: false,
+      export: true,
       refresh: true,
       search: true,
       zoom: true,
