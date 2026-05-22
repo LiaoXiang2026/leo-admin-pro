@@ -3,6 +3,15 @@ import {
   definePreferencesExtension,
 } from '@vben/preferences';
 
+interface PlaygroundPreferencesExtension {
+  defaultVisibleRows: number;
+  enableQuickActions: boolean;
+  highlightTone: 'default' | 'success' | 'warning';
+  reportTitle: string;
+}
+
+export type { PlaygroundPreferencesExtension };
+
 interface WebAntdPreferencesExtension {
   defaultTableSize: number;
   enableFormFullscreen: boolean;
